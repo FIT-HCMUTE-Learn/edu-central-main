@@ -1,8 +1,12 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.dto.request.course.CourseCreateRequest;
+import com.landingis.api.dto.request.course.CourseUpdateRequest;
+import com.landingis.api.dto.response.course.CourseResponse;
 import com.landingis.api.entity.Course;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
+import com.landingis.api.mapper.CourseMapper;
 import com.landingis.api.repository.CourseRepository;
 import com.landingis.api.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,45 +20,56 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private CourseMapper courseMapper;
+
     @Override
-    public List<Course> findAll() {
-        return courseRepository.findAll();
+    public List<CourseResponse> findAll() {
+        return courseMapper.toResponseList(courseRepository.findAll());
     }
 
     @Override
-    public Course findById(Long id) {
-        return courseRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Course with id " + id + " not found")
-        );
+    public CourseResponse findById(Long id) {
+        Course course = findCourseById(id);
+
+        return courseMapper.toResponse(course);
     }
 
     @Override
-    public Course create(Course course) {
+    public CourseResponse create(CourseCreateRequest request) {
+        Course course = courseMapper.toEntity(request);
+
         if (courseRepository.existsByCode(course.getCode())) {
             throw new BusinessException("Course with code " + course.getCode() + " already exists");
         }
 
-        return courseRepository.save(course);
+        Course savedCourse = courseRepository.save(course);
+
+        return courseMapper.toResponse(savedCourse);
     }
 
     @Override
-    public Course update(Long id, Course courseUpdate) {
-        Course course = courseRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Course with id " + id + " not found")
-        );
+    public CourseResponse update(Long id, CourseUpdateRequest request) {
+        Course course = findCourseById(id);
 
-        course.setName(courseUpdate.getName());
-        course.setCode(courseUpdate.getCode());
+        courseMapper.updateEntity(course, request);
 
-        return courseRepository.save(course);
+        Course updatedCourse = courseRepository.save(course);
+
+        return courseMapper.toResponse(updatedCourse);
     }
 
     @Override
     public void delete(Long id) {
-        Course course = courseRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Course with id " + id + " not found")
-        );
+        Course course = findCourseById(id);
 
         courseRepository.delete(course);
+    }
+
+    @Override
+    public Course findCourseById(Long id) {
+        return courseRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Course with id " + id + " not found")
+        );
     }
 }
