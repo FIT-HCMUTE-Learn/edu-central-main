@@ -8,8 +8,8 @@ import com.landingis.api.entity.User;
 import java.util.List;
 
 public interface UserService {
-    List<UserResponse> findAll();
-    UserResponse findById(Long id);
+    List<UserResponse> getAll();
+    UserResponse getOne(Long id);
     UserResponse create(UserCreateRequest request);
     UserResponse update(Long id, UserUpdateRequest request);
     void delete(Long id);

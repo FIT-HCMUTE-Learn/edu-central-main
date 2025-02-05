@@ -29,12 +29,12 @@ public class UserServiceImpl implements UserService {
     private CourseService courseService;
 
     @Override
-    public List<UserResponse> findAll() {
+    public List<UserResponse> getAll() {
         return userMapper.toResponseList(userRepository.findAll());
     }
 
     @Override
-    public UserResponse findById(Long id) {
+    public UserResponse getOne(Long id) {
         User user = findUserById(id);
 
         return userMapper.toResponse(user);

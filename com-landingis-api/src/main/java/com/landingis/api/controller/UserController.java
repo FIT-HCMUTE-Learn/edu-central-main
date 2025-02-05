@@ -23,7 +23,7 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<ApiMessageDto<List<UserResponse>>> getAllUsers() {
         ApiMessageDto<List<UserResponse>> response = ApiMessageUtils
-                .success(userService.findAll(),"Successfully retrieved all users");
+                .success(userService.getAll(),"Successfully retrieved all users");
 
         return ResponseEntity.ok(response);
     }
@@ -31,7 +31,7 @@ public class UserController {
     @GetMapping("/user/{id}")
     public ResponseEntity<ApiMessageDto<UserResponse>> getUserById(@PathVariable Long id) {
         ApiMessageDto<UserResponse> response = ApiMessageUtils
-                .success(userService.findById(id), "Successfully retrieved user by id");
+                .success(userService.getOne(id), "Successfully retrieved user by id");
 
         return ResponseEntity.ok(response);
     }

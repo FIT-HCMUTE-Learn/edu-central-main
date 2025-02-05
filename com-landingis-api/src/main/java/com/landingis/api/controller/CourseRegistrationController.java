@@ -1,7 +1,7 @@
 package com.landingis.api.controller;
 
 import com.landingis.api.dto.ApiMessageDto;
-import com.landingis.api.entity.UserCourse;
+import com.landingis.api.dto.response.intermediary.UserCourseResponse;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.service.UserCourseService;
 import com.landingis.api.util.ApiMessageUtils;
@@ -19,9 +19,9 @@ public class CourseRegistrationController {
     private UserCourseService userCourseService;
 
     @PostMapping("/{userId}/{courseId}")
-    public ResponseEntity<ApiMessageDto<UserCourse>> registerCourse(@PathVariable Long userId,
-                                                                    @PathVariable Long courseId) {
-        ApiMessageDto<UserCourse> response = ApiMessageUtils
+    public ResponseEntity<ApiMessageDto<UserCourseResponse>> registerCourse(@PathVariable Long userId,
+                                                                            @PathVariable Long courseId) {
+        ApiMessageDto<UserCourseResponse> response = ApiMessageUtils
                 .success(userCourseService.registerCourse(userId, courseId), "Course registered successfully");
 
         return ResponseEntity.ok(response);
@@ -50,17 +50,26 @@ public class CourseRegistrationController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{userId}/{courseId}")
+    public ResponseEntity<ApiMessageDto<UserCourseResponse>> getUserCourseResponse(@PathVariable Long userId,
+                                                                                   @PathVariable Long courseId) {
+        ApiMessageDto<UserCourseResponse> response = ApiMessageUtils
+                .success(userCourseService.getUserCourseResponse(userId, courseId), "Course retrieved successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/user/{userId}")
-    public ResponseEntity<ApiMessageDto<List<UserCourse>>> getCoursesByUser(@PathVariable Long userId) {
-        ApiMessageDto<List<UserCourse>> response = ApiMessageUtils
+    public ResponseEntity<ApiMessageDto<List<UserCourseResponse>>> getCoursesByUser(@PathVariable Long userId) {
+        ApiMessageDto<List<UserCourseResponse>> response = ApiMessageUtils
                 .success(userCourseService.getUserCoursesByUserId(userId), "Courses retrieved successfully");
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/course/{courseId}")
-    public ResponseEntity<ApiMessageDto<List<UserCourse>>> getUsersByCourse(@PathVariable Long courseId) {
-        ApiMessageDto<List<UserCourse>> response = ApiMessageUtils
+    public ResponseEntity<ApiMessageDto<List<UserCourseResponse>>> getUsersByCourse(@PathVariable Long courseId) {
+        ApiMessageDto<List<UserCourseResponse>> response = ApiMessageUtils
                 .success(userCourseService.getUserCoursesByCourseId(courseId), "Users retrieved successfully");
 
         return ResponseEntity.ok(response);

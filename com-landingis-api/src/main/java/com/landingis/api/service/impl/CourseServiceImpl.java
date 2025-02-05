@@ -24,12 +24,12 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
 
     @Override
-    public List<CourseResponse> findAll() {
+    public List<CourseResponse> getAll() {
         return courseMapper.toResponseList(courseRepository.findAll());
     }
 
     @Override
-    public CourseResponse findById(Long id) {
+    public CourseResponse getOne(Long id) {
         Course course = findCourseById(id);
 
         return courseMapper.toResponse(course);

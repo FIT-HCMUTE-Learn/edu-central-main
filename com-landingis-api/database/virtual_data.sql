@@ -12,7 +12,7 @@ VALUES(2, 'course2', 'Programming Techniques');
 INSERT INTO course(id, code, name)
 VALUES(3, 'course3', 'Web Development');
 
-INSERT INTO user_course(user_id, course_id, date_register, status)
-VALUES(1, 2, CURRENT_DATE(), 'PENDING');
-INSERT INTO user_course(user_id, course_id, date_register, status)
-VALUES(1, 3, CURRENT_DATE(), 'ACTIVE');
+INSERT INTO user_course(id, user_id, course_id, date_register, status)
+VALUES(1, 1, 2, CURRENT_DATE(), 'PENDING');
+INSERT INTO user_course(id, user_id, course_id, date_register, status)
+VALUES(2, 1, 3, CURRENT_DATE(), 'ACTIVE');

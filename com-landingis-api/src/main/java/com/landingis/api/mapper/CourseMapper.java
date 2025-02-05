@@ -19,16 +19,14 @@ public interface CourseMapper {
 
     @Mappings({
             @Mapping(source = "courseName", target = "name"),
-            @Mapping(source = "courseCode", target = "code"),
-            @Mapping(target = "userCourses", ignore = true)
+            @Mapping(source = "courseCode", target = "code")
     })
     void updateEntity(@MappingTarget Course course, CourseUpdateRequest request);
 
     @Mappings({
             @Mapping(source = "id", target = "courseId"),
             @Mapping(source = "name", target = "courseName"),
-            @Mapping(source = "code", target = "courseCode"),
-            @Mapping(target = "userCourses", ignore = true)
+            @Mapping(source = "code", target = "courseCode")
     })
     CourseResponse toResponse(Course course);
 

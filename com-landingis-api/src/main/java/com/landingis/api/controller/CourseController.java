@@ -23,7 +23,7 @@ public class CourseController {
     @GetMapping("/courses")
     public ResponseEntity<ApiMessageDto<List<CourseResponse>>> getAllCourses() {
         ApiMessageDto<List<CourseResponse>> response = ApiMessageUtils
-                .success(courseService.findAll(), "Successfully retrieved all courses");
+                .success(courseService.getAll(), "Successfully retrieved all courses");
 
         return ResponseEntity.ok(response);
     }
@@ -31,7 +31,7 @@ public class CourseController {
     @GetMapping("/course/{id}")
     public ResponseEntity<ApiMessageDto<CourseResponse>> getCourseById(@PathVariable Long id) {
         ApiMessageDto<CourseResponse> response = ApiMessageUtils
-                .success(courseService.findById(id), "Successfully retrieved course by id");
+                .success(courseService.getOne(id), "Successfully retrieved course by id");
 
         return ResponseEntity.ok(response);
     }

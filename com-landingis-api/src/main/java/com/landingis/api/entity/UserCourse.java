@@ -1,7 +1,6 @@
 package com.landingis.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.landingis.api.composite.UserCourseId;
 import com.landingis.api.enumeration.RegisterStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,23 +12,21 @@ import java.time.LocalDate;
 @Table(name = "user_course")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCourse {
 
-    @EmbeddedId
-    UserCourseId id = new UserCourseId();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-    @JsonIgnore
     @ManyToOne
-    @MapsId("userId")
     @JoinColumn(name = "user_id")
     User user;
 
-    @JsonIgnore
     @ManyToOne
-    @MapsId("courseId")
     @JoinColumn(name = "course_id")
     Course course;
 

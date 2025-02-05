@@ -1,8 +1,6 @@
 package com.landingis.api.mapper;
 
 import com.landingis.api.dto.response.intermediary.UserCourseResponse;
-import com.landingis.api.dto.response.user.UserResponse;
-import com.landingis.api.entity.User;
 import com.landingis.api.entity.UserCourse;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
@@ -15,8 +13,8 @@ import java.util.List;
 public interface UserCourseMapper {
     @Mappings({
             @Mapping(source = "id", target = "userCourseId"),
-            @Mapping(source = "user", target = "user"),
-            @Mapping(source = "course", target = "course"),
+            @Mapping(source = "user.id", target = "userId"),
+            @Mapping(source = "course.id", target = "courseId"),
             @Mapping(source = "dateRegister", target = "dateRegister"),
             @Mapping(source = "status", target = "status")
     })

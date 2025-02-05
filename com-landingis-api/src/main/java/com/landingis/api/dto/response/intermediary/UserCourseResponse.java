@@ -1,7 +1,6 @@
 package com.landingis.api.dto.response.intermediary;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.landingis.api.composite.UserCourseId;
 import com.landingis.api.entity.Course;
 import com.landingis.api.entity.User;
 import lombok.Builder;
@@ -15,9 +14,9 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class UserCourseResponse {
-    UserCourseId userCourseId;
-    User user;
-    Course course;
+    Long userCourseId;
+    String userId;
+    String courseId;
     String dateRegister;
     String status;
 }

@@ -8,8 +8,8 @@ import com.landingis.api.entity.Course;
 import java.util.List;
 
 public interface CourseService {
-    List<CourseResponse> findAll();
-    CourseResponse findById(Long id);
+    List<CourseResponse> getAll();
+    CourseResponse getOne(Long id);
     CourseResponse create(CourseCreateRequest request);
     CourseResponse update(Long id, CourseUpdateRequest request);
     void delete(Long id);
