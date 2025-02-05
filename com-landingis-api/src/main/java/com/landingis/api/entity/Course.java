@@ -32,8 +32,4 @@ public class Course {
     @JsonIgnore
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserCourse> userCourses = new ArrayList<>();
-
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
-//    private List<User> users = new ArrayList<>();
 }

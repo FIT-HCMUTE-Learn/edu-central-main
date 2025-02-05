@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface UserCourseService {
     UserCourse registerCourse(Long userId, Long courseId);
     void unregisterCourse(Long userId, Long courseId);
+    Optional<UserCourse> getUserCourse(Long userId, Long courseId);
     List<UserCourse> getUserCoursesByUserId(Long userId);
     List<UserCourse> getUserCoursesByCourseId(Long courseId);
-    Optional<UserCourse> getUserCourse(Long userId, Long courseId);
     void updateStatus(Long userId, Long courseId, RegisterStatus status);
 }
 

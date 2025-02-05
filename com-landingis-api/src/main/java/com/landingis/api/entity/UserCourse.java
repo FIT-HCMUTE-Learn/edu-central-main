@@ -1,11 +1,10 @@
 package com.landingis.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.landingis.api.composite.UserCourseId;
 import com.landingis.api.enumeration.RegisterStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,26 +15,29 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCourse {
 
     @EmbeddedId
-    private UserCourseId id = new UserCourseId();
+    UserCourseId id = new UserCourseId();
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
-    private User user;
+    User user;
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
-    private Course course;
+    Course course;
 
     @Column(nullable = false)
-    private LocalDate dateRegister;
+    LocalDate dateRegister;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RegisterStatus status;
+    RegisterStatus status;
 }
 

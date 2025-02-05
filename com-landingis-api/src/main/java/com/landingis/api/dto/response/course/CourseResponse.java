@@ -1,8 +1,7 @@
 package com.landingis.api.dto.response.course;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.landingis.api.dto.response.user.UserResponse;
-import com.landingis.api.view.JsonViews;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.landingis.api.entity.UserCourse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,21 +9,14 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
 @Builder
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class CourseResponse {
-
-    @JsonView(JsonViews.CourseView.class)
     Long courseId;
-
-    @JsonView(JsonViews.CourseView.class)
     String courseName;
-
-    @JsonView(JsonViews.CourseView.class)
     String courseCode;
-
-    @JsonView(JsonViews.CourseView.class)
-    List<UserResponse> users;
+    List<UserCourse> userCourses;
 }

@@ -1,14 +1,11 @@
 package com.landingis.api.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.request.user.UserCreateRequest;
 import com.landingis.api.dto.request.user.UserUpdateRequest;
-import com.landingis.api.dto.response.course.CourseResponse;
 import com.landingis.api.dto.response.user.UserResponse;
 import com.landingis.api.service.UserService;
 import com.landingis.api.util.ApiMessageUtils;
-import com.landingis.api.view.JsonViews;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +21,6 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    @JsonView(JsonViews.UserView.class)
     public ResponseEntity<ApiMessageDto<List<UserResponse>>> getAllUsers() {
         ApiMessageDto<List<UserResponse>> response = ApiMessageUtils
                 .success(userService.findAll(),"Successfully retrieved all users");
@@ -33,7 +29,6 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    @JsonView(JsonViews.UserView.class)
     public ResponseEntity<ApiMessageDto<UserResponse>> getUserById(@PathVariable Long id) {
         ApiMessageDto<UserResponse> response = ApiMessageUtils
                 .success(userService.findById(id), "Successfully retrieved user by id");
@@ -66,31 +61,4 @@ public class UserController {
 
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/user/{id}/courses")
-    @JsonView(JsonViews.CourseView.class)
-    public ResponseEntity<ApiMessageDto<List<CourseResponse>>> getCourseByUserId(@PathVariable Long id){
-        ApiMessageDto<List<CourseResponse>> response = ApiMessageUtils
-                .success(userService.findById(id).getCourses(), "Successfully retrieved courses by user id");
-
-        return ResponseEntity.ok(response);
-    }
-
-//    @PutMapping("/user/{userId}/register-course/{courseId}")
-//    public ResponseEntity<ApiMessageDto<Void>> registerCourse(@PathVariable Long userId, @PathVariable Long courseId){
-//        userService.registerCourse(userId, courseId);
-//        ApiMessageDto<Void> response = ApiMessageUtils
-//                .success(null, "User register course successfully");
-//
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @DeleteMapping("/user/{userId}/unregister-course/{courseId}")
-//    public ResponseEntity<ApiMessageDto<Void>> unregisterCourse(@PathVariable Long userId, @PathVariable Long courseId){
-//        userService.unregisterCourse(userId, courseId);
-//        ApiMessageDto<Void> response = ApiMessageUtils
-//                .success(null, "User unregister course successfully");
-//
-//        return ResponseEntity.ok(response);
-//    }
 }

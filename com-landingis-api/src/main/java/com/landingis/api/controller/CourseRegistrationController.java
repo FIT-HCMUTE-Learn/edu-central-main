@@ -19,7 +19,8 @@ public class CourseRegistrationController {
     private UserCourseService userCourseService;
 
     @PostMapping("/{userId}/{courseId}")
-    public ResponseEntity<ApiMessageDto<UserCourse>> registerCourse(@PathVariable Long userId, @PathVariable Long courseId) {
+    public ResponseEntity<ApiMessageDto<UserCourse>> registerCourse(@PathVariable Long userId,
+                                                                    @PathVariable Long courseId) {
         ApiMessageDto<UserCourse> response = ApiMessageUtils
                 .success(userCourseService.registerCourse(userId, courseId), "Course registered successfully");
 
@@ -27,7 +28,8 @@ public class CourseRegistrationController {
     }
 
     @DeleteMapping("/{userId}/{courseId}")
-    public ResponseEntity<ApiMessageDto<Void>> unregisterCourse(@PathVariable Long userId, @PathVariable Long courseId) {
+    public ResponseEntity<ApiMessageDto<Void>> unregisterCourse(@PathVariable Long userId,
+                                                                @PathVariable Long courseId) {
         userCourseService.unregisterCourse(userId, courseId);
 
         ApiMessageDto<Void> response = ApiMessageUtils
@@ -38,8 +40,8 @@ public class CourseRegistrationController {
 
     @PutMapping("/{userId}/{courseId}/status")
     public ResponseEntity<ApiMessageDto<Void>> updateStatus(@PathVariable Long userId,
-                                                   @PathVariable Long courseId,
-                                                   @RequestParam RegisterStatus status) {
+                                                            @PathVariable Long courseId,
+                                                            @RequestParam RegisterStatus status) {
         userCourseService.updateStatus(userId, courseId, status);
 
         ApiMessageDto<Void> response = ApiMessageUtils

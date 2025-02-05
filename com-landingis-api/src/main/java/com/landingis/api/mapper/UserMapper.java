@@ -23,7 +23,7 @@ public interface UserMapper {
             @Mapping(source = "userPassword", target = "password"),
             @Mapping(source = "userFullName", target = "fullName"),
             @Mapping(source = "userBirthday", target = "birthDate"),
-            @Mapping(target = "courses", ignore = true)
+            @Mapping(target = "userCourses", ignore = true)
     })
     void updateEntity(@MappingTarget User user, UserUpdateRequest request);
 
@@ -33,7 +33,7 @@ public interface UserMapper {
             @Mapping(source = "password", target = "userPassword"),
             @Mapping(source = "fullName", target = "userFullName"),
             @Mapping(source = "birthDate", target = "userBirthday"),
-            @Mapping(target = "courses", ignore = true)
+            @Mapping(target = "userCourses", ignore = true)
     })
     UserResponse toResponse(User user);
 

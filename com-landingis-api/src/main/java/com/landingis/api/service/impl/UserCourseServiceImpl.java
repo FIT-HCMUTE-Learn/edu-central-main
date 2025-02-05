@@ -5,6 +5,7 @@ import com.landingis.api.entity.Course;
 import com.landingis.api.entity.User;
 import com.landingis.api.entity.UserCourse;
 import com.landingis.api.enumeration.RegisterStatus;
+import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.repository.UserCourseRepository;
 import com.landingis.api.service.CourseService;
@@ -36,7 +37,7 @@ public class UserCourseServiceImpl implements UserCourseService {
 
         UserCourseId userCourseId = new UserCourseId(userId, courseId);
         if (userCourseRepository.existsById(userCourseId)) {
-            throw new IllegalStateException("User is already registered for this course");
+            throw new BusinessException("User is already registered for this course");
         }
 
         UserCourse userCourse = new UserCourse();
@@ -52,10 +53,19 @@ public class UserCourseServiceImpl implements UserCourseService {
     @Override
     public void unregisterCourse(Long userId, Long courseId) {
         UserCourseId userCourseId = new UserCourseId(userId, courseId);
+
         if (!userCourseRepository.existsById(userCourseId)) {
             throw new ResourceNotFoundException("Course registration not found");
         }
+
         userCourseRepository.deleteById(userCourseId);
+    }
+
+    @Override
+    public Optional<UserCourse> getUserCourse(Long userId, Long courseId) {
+        UserCourseId userCourseId = new UserCourseId(userId, courseId);
+
+        return userCourseRepository.findById(userCourseId);
     }
 
     @Override
@@ -69,16 +79,12 @@ public class UserCourseServiceImpl implements UserCourseService {
     }
 
     @Override
-    public Optional<UserCourse> getUserCourse(Long userId, Long courseId) {
-        UserCourseId userCourseId = new UserCourseId(userId, courseId);
-        return userCourseRepository.findById(userCourseId);
-    }
-
-    @Override
     public void updateStatus(Long userId, Long courseId, RegisterStatus status) {
         UserCourse userCourse = getUserCourse(userId, courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course registration not found"));
+
         userCourse.setStatus(status);
+
         userCourseRepository.save(userCourse);
     }
 }
