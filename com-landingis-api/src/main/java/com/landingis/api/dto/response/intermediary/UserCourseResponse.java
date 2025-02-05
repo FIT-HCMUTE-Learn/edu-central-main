@@ -15,8 +15,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class UserCourseResponse {
     Long userCourseId;
-    String userId;
-    String courseId;
+    User user;
+    Course course;
     String dateRegister;
     String status;
 }

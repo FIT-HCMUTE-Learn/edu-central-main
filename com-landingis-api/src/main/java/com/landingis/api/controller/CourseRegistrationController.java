@@ -1,6 +1,7 @@
 package com.landingis.api.controller;
 
 import com.landingis.api.dto.ApiMessageDto;
+import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.response.intermediary.UserCourseResponse;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.service.UserCourseService;
@@ -71,6 +72,22 @@ public class CourseRegistrationController {
     public ResponseEntity<ApiMessageDto<List<UserCourseResponse>>> getUsersByCourse(@PathVariable Long courseId) {
         ApiMessageDto<List<UserCourseResponse>> response = ApiMessageUtils
                 .success(userCourseService.getUserCoursesByCourseId(courseId), "Users retrieved successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseResponse>>> getUserCourses(
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String nameUser,
+            @RequestParam(required = false) String courseName,
+            @RequestParam(required = false) String courseCode,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        PaginationDto<UserCourseResponse> userCourses = userCourseService.getUserCoursesPagination(username, nameUser, courseName, courseCode, page, size);
+        ApiMessageDto<PaginationDto<UserCourseResponse>> response = ApiMessageUtils
+                .success(userCourses, "List user courses success");
 
         return ResponseEntity.ok(response);
     }

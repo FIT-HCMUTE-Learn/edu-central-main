@@ -1,5 +1,6 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.request.course.CourseCreateRequest;
 import com.landingis.api.dto.request.course.CourseUpdateRequest;
 import com.landingis.api.dto.response.course.CourseResponse;
@@ -8,6 +9,7 @@ import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.CourseMapper;
 import com.landingis.api.repository.CourseRepository;
+import com.landingis.api.repository.criteria.CourseCriteriaRepository;
 import com.landingis.api.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +23,23 @@ public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
 
     @Autowired
+    private CourseCriteriaRepository courseCriteriaRepository;
+
+    @Autowired
     private CourseMapper courseMapper;
 
     @Override
     public List<CourseResponse> getAll() {
         return courseMapper.toResponseList(courseRepository.findAll());
+    }
+
+    @Override
+    public PaginationDto<CourseResponse> getCoursesPagination(String name, String code, int page, int size) {
+        List<Course> courses = courseCriteriaRepository.findCourses(name, code, page, size);
+        long totalElements = courseCriteriaRepository.countCourses(name, code);
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+
+        return new PaginationDto<>(courseMapper.toResponseList(courses), totalElements, totalPages);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.landingis.api.controller;
 
 import com.landingis.api.dto.ApiMessageDto;
+import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.request.user.UserCreateRequest;
 import com.landingis.api.dto.request.user.UserUpdateRequest;
 import com.landingis.api.dto.response.user.UserResponse;
@@ -58,6 +59,20 @@ public class UserController {
         userService.delete(id);
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "User deleted successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/users/pagination")
+    public ResponseEntity<ApiMessageDto<PaginationDto<UserResponse>>> getUsersPagination(
+            @RequestParam(required = false) String nameUser,
+            @RequestParam(required = false) String username,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        PaginationDto<UserResponse> users = userService.getUsersPagination(nameUser, username, page, size);
+        ApiMessageDto<PaginationDto<UserResponse>> response = ApiMessageUtils
+                .success(users, "List users success");
 
         return ResponseEntity.ok(response);
     }

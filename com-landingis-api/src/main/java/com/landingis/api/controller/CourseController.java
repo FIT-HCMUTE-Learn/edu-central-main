@@ -1,9 +1,11 @@
 package com.landingis.api.controller;
 
 import com.landingis.api.dto.ApiMessageDto;
+import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.request.course.CourseCreateRequest;
 import com.landingis.api.dto.request.course.CourseUpdateRequest;
 import com.landingis.api.dto.response.course.CourseResponse;
+import com.landingis.api.dto.response.user.UserResponse;
 import com.landingis.api.service.CourseService;
 import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,20 @@ public class CourseController {
         courseService.delete(id);
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "Course deleted successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/courses/pagination")
+    public ResponseEntity<ApiMessageDto<PaginationDto<CourseResponse>>> getCoursesPagination(
+            @RequestParam(required = false) String courseName,
+            @RequestParam(required = false) String courseCode,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        PaginationDto<CourseResponse> courses = courseService.getCoursesPagination(courseName, courseCode, page, size);
+        ApiMessageDto<PaginationDto<CourseResponse>> response = ApiMessageUtils
+                .success(courses, "List users success");
 
         return ResponseEntity.ok(response);
     }

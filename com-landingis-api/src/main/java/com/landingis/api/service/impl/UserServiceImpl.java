@@ -1,14 +1,15 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.request.user.UserCreateRequest;
 import com.landingis.api.dto.request.user.UserUpdateRequest;
 import com.landingis.api.dto.response.user.UserResponse;
-import com.landingis.api.entity.Course;
 import com.landingis.api.entity.User;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.UserMapper;
 import com.landingis.api.repository.UserRepository;
+import com.landingis.api.repository.criteria.UserCriteriaRepository;
 import com.landingis.api.service.CourseService;
 import com.landingis.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserCriteriaRepository userCriteriaRepository;
+
+    @Autowired
     private UserMapper userMapper;
 
     @Autowired
@@ -31,6 +35,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAll() {
         return userMapper.toResponseList(userRepository.findAll());
+    }
+
+    @Override
+    public PaginationDto<UserResponse> getUsersPagination(String name, String username, int page, int size) {
+        List<User> users = userCriteriaRepository.findUsers(name, username, page, size);
+        long totalElements = userCriteriaRepository.countUsers(name, username);
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+
+        return new PaginationDto<>(userMapper.toResponseList(users), totalElements, totalPages);
     }
 
     @Override

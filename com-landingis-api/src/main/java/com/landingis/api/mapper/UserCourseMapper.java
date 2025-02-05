@@ -13,8 +13,8 @@ import java.util.List;
 public interface UserCourseMapper {
     @Mappings({
             @Mapping(source = "id", target = "userCourseId"),
-            @Mapping(source = "user.id", target = "userId"),
-            @Mapping(source = "course.id", target = "courseId"),
+            @Mapping(source = "user", target = "user"),
+            @Mapping(source = "course", target = "course"),
             @Mapping(source = "dateRegister", target = "dateRegister"),
             @Mapping(source = "status", target = "status")
     })
