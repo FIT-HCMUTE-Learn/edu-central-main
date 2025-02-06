@@ -1,5 +1,6 @@
 package com.landingis.api.controller;
 
+import com.landingis.api.criteria.UserCourseCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.response.intermediary.UserCourseResponse;
@@ -7,6 +8,7 @@ import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.service.UserCourseService;
 import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,16 +80,41 @@ public class CourseRegistrationController {
 
     @GetMapping("/pagination")
     public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseResponse>>> getUserCourses(
-            @RequestParam(required = false) String username,
-            @RequestParam(required = false) String nameUser,
-            @RequestParam(required = false) String courseName,
-            @RequestParam(required = false) String courseCode,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            UserCourseCriteria userCourseCriteria,
+            Pageable pageable
+    ) {
 
-        PaginationDto<UserCourseResponse> userCourses = userCourseService.getUserCoursesPagination(username, nameUser, courseName, courseCode, page, size);
+        PaginationDto<UserCourseResponse> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
         ApiMessageDto<PaginationDto<UserCourseResponse>> response = ApiMessageUtils
-                .success(userCourses, "List user courses success");
+                .success(userCourses, "Successfully retrieved course registration with pagination");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/pagination/user/{userId}")
+    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseResponse>>> getCoursesByUser(
+            @PathVariable Long userId,
+            UserCourseCriteria userCourseCriteria,
+            Pageable pageable) {
+
+        userCourseCriteria.setUserId(userId);
+        PaginationDto<UserCourseResponse> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
+        ApiMessageDto<PaginationDto<UserCourseResponse>> response = ApiMessageUtils
+                .success(userCourses, "Successfully retrieved courses with pagination");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/pagination/course/{courseId}")
+    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseResponse>>> getUsersByCourse(
+            @PathVariable Long courseId,
+            UserCourseCriteria userCourseCriteria,
+            Pageable pageable) {
+
+        userCourseCriteria.setCourseId(courseId);
+        PaginationDto<UserCourseResponse> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
+        ApiMessageDto<PaginationDto<UserCourseResponse>> response = ApiMessageUtils
+                .success(userCourses, "Successfully retrieved users with pagination");
 
         return ResponseEntity.ok(response);
     }

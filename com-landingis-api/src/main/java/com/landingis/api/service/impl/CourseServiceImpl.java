@@ -1,5 +1,6 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.request.course.CourseCreateRequest;
 import com.landingis.api.dto.request.course.CourseUpdateRequest;
@@ -9,21 +10,21 @@ import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.CourseMapper;
 import com.landingis.api.repository.CourseRepository;
-import com.landingis.api.repository.criteria.CourseCriteriaRepository;
 import com.landingis.api.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
-
-    @Autowired
-    private CourseCriteriaRepository courseCriteriaRepository;
 
     @Autowired
     private CourseMapper courseMapper;
@@ -34,12 +35,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public PaginationDto<CourseResponse> getCoursesPagination(String name, String code, int page, int size) {
-        List<Course> courses = courseCriteriaRepository.findCourses(name, code, page, size);
-        long totalElements = courseCriteriaRepository.countCourses(name, code);
-        int totalPages = (int) Math.ceil((double) totalElements / size);
+    public PaginationDto<CourseResponse> getCoursesPagination(CourseCriteria courseCriteria, Pageable pageable) {
+        Specification<Course> spec = courseCriteria.getSpecification();
+        Page<Course> coursePage = courseRepository.findAll(spec, pageable);
 
-        return new PaginationDto<>(courseMapper.toResponseList(courses), totalElements, totalPages);
+        return new PaginationDto<>(
+                courseMapper.toResponseList(coursePage.getContent()),
+                coursePage.getTotalElements(),
+                coursePage.getTotalPages()
+        );
     }
 
     @Override
@@ -66,8 +70,11 @@ public class CourseServiceImpl implements CourseService {
     public CourseResponse update(Long id, CourseUpdateRequest request) {
         Course course = findCourseById(id);
 
-        courseMapper.updateEntity(course, request);
+        if (!Objects.equals(request.getCourseCode(), course.getCode()) && courseRepository.existsByCode(request.getCourseCode())) {
+            throw new BusinessException("Course with code " + request.getCourseCode() + " already exists");
+        }
 
+        courseMapper.updateEntity(course, request);
         Course updatedCourse = courseRepository.save(course);
 
         return courseMapper.toResponse(updatedCourse);

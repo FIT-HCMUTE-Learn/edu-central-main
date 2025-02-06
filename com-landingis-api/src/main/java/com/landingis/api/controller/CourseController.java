@@ -1,14 +1,15 @@
 package com.landingis.api.controller;
 
+import com.landingis.api.criteria.CourseCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.request.course.CourseCreateRequest;
 import com.landingis.api.dto.request.course.CourseUpdateRequest;
 import com.landingis.api.dto.response.course.CourseResponse;
-import com.landingis.api.dto.response.user.UserResponse;
 import com.landingis.api.service.CourseService;
 import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -66,14 +67,12 @@ public class CourseController {
 
     @GetMapping("/courses/pagination")
     public ResponseEntity<ApiMessageDto<PaginationDto<CourseResponse>>> getCoursesPagination(
-            @RequestParam(required = false) String courseName,
-            @RequestParam(required = false) String courseCode,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            CourseCriteria courseCriteria, Pageable pageable
+    ) {
 
-        PaginationDto<CourseResponse> courses = courseService.getCoursesPagination(courseName, courseCode, page, size);
+        PaginationDto<CourseResponse> courses = courseService.getCoursesPagination(courseCriteria, pageable);
         ApiMessageDto<PaginationDto<CourseResponse>> response = ApiMessageUtils
-                .success(courses, "List users success");
+                .success(courses, "Successfully retrieved courses with pagination");
 
         return ResponseEntity.ok(response);
     }

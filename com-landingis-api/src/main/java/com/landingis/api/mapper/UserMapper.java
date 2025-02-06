@@ -20,6 +20,7 @@ public interface UserMapper {
     User toEntity(UserCreateRequest request);
 
     @Mappings({
+            @Mapping(source = "handle", target = "username"),
             @Mapping(source = "userPassword", target = "password"),
             @Mapping(source = "userFullName", target = "fullName"),
             @Mapping(source = "userBirthday", target = "birthDate")

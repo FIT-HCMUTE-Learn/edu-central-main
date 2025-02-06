@@ -1,5 +1,6 @@
 package com.landingis.api.controller;
 
+import com.landingis.api.criteria.UserCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.request.user.UserCreateRequest;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -65,14 +67,12 @@ public class UserController {
 
     @GetMapping("/users/pagination")
     public ResponseEntity<ApiMessageDto<PaginationDto<UserResponse>>> getUsersPagination(
-            @RequestParam(required = false) String nameUser,
-            @RequestParam(required = false) String username,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            UserCriteria userCriteria, Pageable pageable
+    ) {
 
-        PaginationDto<UserResponse> users = userService.getUsersPagination(nameUser, username, page, size);
+        PaginationDto<UserResponse> users = userService.getUsersPagination(userCriteria, pageable);
         ApiMessageDto<PaginationDto<UserResponse>> response = ApiMessageUtils
-                .success(users, "List users success");
+                .success(users, "Successfully retrieved users with pagination");
 
         return ResponseEntity.ok(response);
     }

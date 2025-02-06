@@ -1,9 +1,7 @@
 package com.landingis.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.landingis.api.enumeration.RegisterStatus;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,26 +13,25 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCourse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
-    Course course;
+    private Course course;
 
     @Column(nullable = false)
-    LocalDate dateRegister;
+    private LocalDate dateRegister;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    RegisterStatus status;
+    private RegisterStatus status;
 }
 

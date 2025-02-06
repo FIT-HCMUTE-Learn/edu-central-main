@@ -6,17 +6,15 @@ import com.landingis.api.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
 @Builder
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserCourseResponse {
-    Long userCourseId;
-    User user;
-    Course course;
-    String dateRegister;
-    String status;
+    private Long userCourseId;
+    private User user;
+    private Course course;
+    private String dateRegister;
+    private String status;
 }

@@ -1,10 +1,6 @@
 package com.landingis.api.dto.request.user;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,23 +11,24 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserCreateRequest {
 
     @NotNull(message = "Username cannot be null")
     @NotEmpty(message = "Username cannot be empty")
-    String handle;
+    private String handle;
 
     @NotNull(message = "Password cannot be null")
     @NotEmpty(message = "Password cannot be empty")
     @Size(min = 8, message = "Password must be at least 8 characters")
-    String userPassword;
+    private String userPassword;
 
     @NotNull(message = "Full name cannot be null")
     @NotEmpty(message = "Full name cannot be empty")
-    String userFullName;
+    private String userFullName;
 
     @NotNull(message = "Birth date cannot be null")
     @Past(message = "Birth date must be in the past")
-    Date userBirthday;
+    private Date userBirthday;
 }

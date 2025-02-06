@@ -1,5 +1,6 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.criteria.UserCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.request.user.UserCreateRequest;
 import com.landingis.api.dto.request.user.UserUpdateRequest;
@@ -9,13 +10,15 @@ import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.UserMapper;
 import com.landingis.api.repository.UserRepository;
-import com.landingis.api.repository.criteria.UserCriteriaRepository;
-import com.landingis.api.service.CourseService;
 import com.landingis.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,13 +27,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserCriteriaRepository userCriteriaRepository;
-
-    @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private CourseService courseService;
 
     @Override
     public List<UserResponse> getAll() {
@@ -38,12 +35,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PaginationDto<UserResponse> getUsersPagination(String name, String username, int page, int size) {
-        List<User> users = userCriteriaRepository.findUsers(name, username, page, size);
-        long totalElements = userCriteriaRepository.countUsers(name, username);
-        int totalPages = (int) Math.ceil((double) totalElements / size);
+    public PaginationDto<UserResponse> getUsersPagination(UserCriteria userCriteria, Pageable pageable) {
+        Specification<User> spec = userCriteria.getSpecification();
+        Page<User> usersPage = userRepository.findAll(spec, pageable);
 
-        return new PaginationDto<>(userMapper.toResponseList(users), totalElements, totalPages);
+        return new PaginationDto<>(
+                userMapper.toResponseList(usersPage.getContent()),
+                usersPage.getTotalElements(),
+                usersPage.getTotalPages()
+        );
     }
 
     @Override
@@ -70,12 +70,11 @@ public class UserServiceImpl implements UserService {
     public UserResponse update(Long id, UserUpdateRequest request) {
         User user = findUserById(id);
 
-        userMapper.updateEntity(user, request);
-
-        if (userRepository.existsByUsername(user.getUsername())){
+        if (!Objects.equals(request.getHandle(), user.getUsername()) && userRepository.existsByUsername(request.getHandle())){
             throw new BusinessException("User with username " + user.getUsername() + " already exists");
         }
 
+        userMapper.updateEntity(user, request);
         User updatedUser = userRepository.save(user);
 
         return userMapper.toResponse(updatedUser);

@@ -2,7 +2,6 @@ package com.landingis.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.*;
@@ -14,25 +13,24 @@ import java.util.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    String username;
+    private String username;
 
     @Column(nullable = false)
-    String password;
+    private String password;
 
     @Column(nullable = false)
-    String fullName;
+    private String fullName;
 
     @Column(nullable = false)
-    Date birthDate;
+    private Date birthDate;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
