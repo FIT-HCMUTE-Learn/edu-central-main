@@ -1,8 +1,8 @@
 package com.landingis.api.mapper;
 
-import com.landingis.api.dto.request.course.CourseCreateRequest;
-import com.landingis.api.dto.request.course.CourseUpdateRequest;
-import com.landingis.api.dto.response.course.CourseResponse;
+import com.landingis.api.dto.response.course.CourseDtoResponse;
+import com.landingis.api.form.course.CourseCreateForm;
+import com.landingis.api.form.course.CourseUpdateForm;
 import com.landingis.api.entity.Course;
 import org.mapstruct.*;
 
@@ -15,21 +15,22 @@ public interface CourseMapper {
             @Mapping(source = "courseName", target = "name"),
             @Mapping(source = "courseCode", target = "code")
     })
-    Course toEntity(CourseCreateRequest request);
+    Course toEntity(CourseCreateForm request);
 
     @Mappings({
             @Mapping(source = "courseName", target = "name"),
             @Mapping(source = "courseCode", target = "code")
     })
-    void updateEntity(@MappingTarget Course course, CourseUpdateRequest request);
+    void updateEntity(@MappingTarget Course course, CourseUpdateForm request);
 
     @Mappings({
             @Mapping(source = "id", target = "courseId"),
             @Mapping(source = "name", target = "courseName"),
             @Mapping(source = "code", target = "courseCode")
     })
-    CourseResponse toResponse(Course course);
+    @Named("mapCourseToDto")
+    CourseDtoResponse toResponse(Course course);
 
-    @IterableMapping(elementTargetType = CourseResponse.class)
-    List<CourseResponse> toResponseList(List<Course> courses);
+    @IterableMapping(elementTargetType = CourseDtoResponse.class, qualifiedByName = "mapCourseToDto")
+    List<CourseDtoResponse> toResponseList(List<Course> courses);
 }

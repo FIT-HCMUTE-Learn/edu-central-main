@@ -1,9 +1,9 @@
 package com.landingis.api.controller;
 
-import com.landingis.api.criteria.UserCourseCriteria;
+import com.landingis.api.entity.criteria.UserCourseCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.dto.response.intermediary.UserCourseResponse;
+import com.landingis.api.dto.response.intermediary.UserCourseDtoResponse;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.service.UserCourseService;
 import com.landingis.api.util.ApiMessageUtils;
@@ -12,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/registration")
 public class CourseRegistrationController {
@@ -21,16 +19,29 @@ public class CourseRegistrationController {
     @Autowired
     private UserCourseService userCourseService;
 
-    @PostMapping("/{userId}/{courseId}")
-    public ResponseEntity<ApiMessageDto<UserCourseResponse>> registerCourse(@PathVariable Long userId,
-                                                                            @PathVariable Long courseId) {
-        ApiMessageDto<UserCourseResponse> response = ApiMessageUtils
+    @GetMapping("/list")
+    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseDtoResponse>>> getUserCourses(
+            UserCourseCriteria userCourseCriteria,
+            Pageable pageable
+    ) {
+
+        PaginationDto<UserCourseDtoResponse> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
+        ApiMessageDto<PaginationDto<UserCourseDtoResponse>> response = ApiMessageUtils
+                .success(userCourses, "Successfully retrieved course registration with pagination");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register/{userId}/{courseId}")
+    public ResponseEntity<ApiMessageDto<UserCourseDtoResponse>> registerCourse(@PathVariable Long userId,
+                                                                               @PathVariable Long courseId) {
+        ApiMessageDto<UserCourseDtoResponse> response = ApiMessageUtils
                 .success(userCourseService.registerCourse(userId, courseId), "Course registered successfully");
 
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{userId}/{courseId}")
+    @DeleteMapping("/unregister/{userId}/{courseId}")
     public ResponseEntity<ApiMessageDto<Void>> unregisterCourse(@PathVariable Long userId,
                                                                 @PathVariable Long courseId) {
         userCourseService.unregisterCourse(userId, courseId);
@@ -41,7 +52,7 @@ public class CourseRegistrationController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{userId}/{courseId}/status")
+    @PutMapping("/update/{userId}/{courseId}/status")
     public ResponseEntity<ApiMessageDto<Void>> updateStatus(@PathVariable Long userId,
                                                             @PathVariable Long courseId,
                                                             @RequestParam RegisterStatus status) {
@@ -49,72 +60,6 @@ public class CourseRegistrationController {
 
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "Status updated successfully");
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{userId}/{courseId}")
-    public ResponseEntity<ApiMessageDto<UserCourseResponse>> getUserCourseResponse(@PathVariable Long userId,
-                                                                                   @PathVariable Long courseId) {
-        ApiMessageDto<UserCourseResponse> response = ApiMessageUtils
-                .success(userCourseService.getUserCourseResponse(userId, courseId), "Course retrieved successfully");
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<ApiMessageDto<List<UserCourseResponse>>> getCoursesByUser(@PathVariable Long userId) {
-        ApiMessageDto<List<UserCourseResponse>> response = ApiMessageUtils
-                .success(userCourseService.getUserCoursesByUserId(userId), "Courses retrieved successfully");
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/course/{courseId}")
-    public ResponseEntity<ApiMessageDto<List<UserCourseResponse>>> getUsersByCourse(@PathVariable Long courseId) {
-        ApiMessageDto<List<UserCourseResponse>> response = ApiMessageUtils
-                .success(userCourseService.getUserCoursesByCourseId(courseId), "Users retrieved successfully");
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/pagination")
-    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseResponse>>> getUserCourses(
-            UserCourseCriteria userCourseCriteria,
-            Pageable pageable
-    ) {
-
-        PaginationDto<UserCourseResponse> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
-        ApiMessageDto<PaginationDto<UserCourseResponse>> response = ApiMessageUtils
-                .success(userCourses, "Successfully retrieved course registration with pagination");
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/pagination/user/{userId}")
-    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseResponse>>> getCoursesByUser(
-            @PathVariable Long userId,
-            UserCourseCriteria userCourseCriteria,
-            Pageable pageable) {
-
-        userCourseCriteria.setUserId(userId);
-        PaginationDto<UserCourseResponse> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
-        ApiMessageDto<PaginationDto<UserCourseResponse>> response = ApiMessageUtils
-                .success(userCourses, "Successfully retrieved courses with pagination");
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/pagination/course/{courseId}")
-    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseResponse>>> getUsersByCourse(
-            @PathVariable Long courseId,
-            UserCourseCriteria userCourseCriteria,
-            Pageable pageable) {
-
-        userCourseCriteria.setCourseId(courseId);
-        PaginationDto<UserCourseResponse> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
-        ApiMessageDto<PaginationDto<UserCourseResponse>> response = ApiMessageUtils
-                .success(userCourses, "Successfully retrieved users with pagination");
 
         return ResponseEntity.ok(response);
     }

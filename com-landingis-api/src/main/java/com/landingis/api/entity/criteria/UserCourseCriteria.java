@@ -1,4 +1,4 @@
-package com.landingis.api.criteria;
+package com.landingis.api.entity.criteria;
 
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.entity.UserCourse;

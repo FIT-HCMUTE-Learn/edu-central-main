@@ -1,8 +1,8 @@
 package com.landingis.api.service.impl;
 
-import com.landingis.api.criteria.UserCourseCriteria;
+import com.landingis.api.entity.criteria.UserCourseCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.dto.response.intermediary.UserCourseResponse;
+import com.landingis.api.dto.response.intermediary.UserCourseDtoResponse;
 import com.landingis.api.entity.Course;
 import com.landingis.api.entity.User;
 import com.landingis.api.entity.UserCourse;
@@ -39,7 +39,7 @@ public class UserCourseServiceImpl implements UserCourseService {
     private UserCourseMapper userCourseMapper;
 
     @Override
-    public UserCourseResponse registerCourse(Long userId, Long courseId) {
+    public UserCourseDtoResponse registerCourse(Long userId, Long courseId) {
         User user = userService.findUserById(userId);
         Course course = courseService.findCourseById(courseId);
 
@@ -66,24 +66,24 @@ public class UserCourseServiceImpl implements UserCourseService {
     }
 
     @Override
-    public UserCourseResponse getUserCourseResponse(Long userId, Long courseId) {
+    public UserCourseDtoResponse getUserCourseResponse(Long userId, Long courseId) {
         UserCourse userCourse = findUserCourseById(userId, courseId);
 
         return userCourseMapper.toResponse(userCourse);
     }
 
     @Override
-    public List<UserCourseResponse> getUserCoursesByUserId(Long userId) {
+    public List<UserCourseDtoResponse> getUserCoursesByUserId(Long userId) {
         return userCourseMapper.toResponseList(userCourseRepository.findByUserId(userId));
     }
 
     @Override
-    public List<UserCourseResponse> getUserCoursesByCourseId(Long courseId) {
+    public List<UserCourseDtoResponse> getUserCoursesByCourseId(Long courseId) {
         return userCourseMapper.toResponseList(userCourseRepository.findByCourseId(courseId));
     }
 
     @Override
-    public PaginationDto<UserCourseResponse> getUserCoursesPagination(UserCourseCriteria userCourseCriteria, Pageable pageable) {
+    public PaginationDto<UserCourseDtoResponse> getUserCoursesPagination(UserCourseCriteria userCourseCriteria, Pageable pageable) {
         Specification<UserCourse> spec = userCourseCriteria.getSpecification();
         Page<UserCourse> userCoursePage = userCourseRepository.findAll(spec, pageable);
 

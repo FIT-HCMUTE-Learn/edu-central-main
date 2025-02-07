@@ -1,10 +1,10 @@
 package com.landingis.api.service.impl;
 
-import com.landingis.api.criteria.CourseCriteria;
+import com.landingis.api.entity.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.dto.request.course.CourseCreateRequest;
-import com.landingis.api.dto.request.course.CourseUpdateRequest;
-import com.landingis.api.dto.response.course.CourseResponse;
+import com.landingis.api.dto.response.course.CourseDtoResponse;
+import com.landingis.api.form.course.CourseCreateForm;
+import com.landingis.api.form.course.CourseUpdateForm;
 import com.landingis.api.entity.Course;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
@@ -30,12 +30,12 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
 
     @Override
-    public List<CourseResponse> getAll() {
+    public List<CourseDtoResponse> getAll() {
         return courseMapper.toResponseList(courseRepository.findAll());
     }
 
     @Override
-    public PaginationDto<CourseResponse> getCoursesPagination(CourseCriteria courseCriteria, Pageable pageable) {
+    public PaginationDto<CourseDtoResponse> getCoursesPagination(CourseCriteria courseCriteria, Pageable pageable) {
         Specification<Course> spec = courseCriteria.getSpecification();
         Page<Course> coursePage = courseRepository.findAll(spec, pageable);
 
@@ -47,14 +47,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseResponse getOne(Long id) {
+    public CourseDtoResponse getOne(Long id) {
         Course course = findCourseById(id);
 
         return courseMapper.toResponse(course);
     }
 
     @Override
-    public CourseResponse create(CourseCreateRequest request) {
+    public CourseDtoResponse create(CourseCreateForm request) {
         Course course = courseMapper.toEntity(request);
 
         if (courseRepository.existsByCode(course.getCode())) {
@@ -67,7 +67,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseResponse update(Long id, CourseUpdateRequest request) {
+    public CourseDtoResponse update(Long id, CourseUpdateForm request) {
         Course course = findCourseById(id);
 
         if (!Objects.equals(request.getCourseCode(), course.getCode()) && courseRepository.existsByCode(request.getCourseCode())) {

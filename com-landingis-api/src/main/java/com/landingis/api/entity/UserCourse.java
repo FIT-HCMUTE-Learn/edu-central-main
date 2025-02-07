@@ -34,4 +34,3 @@ public class UserCourse {
     @Column(nullable = false)
     private RegisterStatus status;
 }
-

@@ -1,10 +1,10 @@
 package com.landingis.api.service.impl;
 
-import com.landingis.api.criteria.UserCriteria;
+import com.landingis.api.entity.criteria.UserCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.dto.request.user.UserCreateRequest;
-import com.landingis.api.dto.request.user.UserUpdateRequest;
-import com.landingis.api.dto.response.user.UserResponse;
+import com.landingis.api.form.user.UserCreateForm;
+import com.landingis.api.form.user.UserUpdateForm;
+import com.landingis.api.dto.response.user.UserDtoResponse;
 import com.landingis.api.entity.User;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
@@ -30,12 +30,12 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public List<UserResponse> getAll() {
+    public List<UserDtoResponse> getAll() {
         return userMapper.toResponseList(userRepository.findAll());
     }
 
     @Override
-    public PaginationDto<UserResponse> getUsersPagination(UserCriteria userCriteria, Pageable pageable) {
+    public PaginationDto<UserDtoResponse> getUsersPagination(UserCriteria userCriteria, Pageable pageable) {
         Specification<User> spec = userCriteria.getSpecification();
         Page<User> usersPage = userRepository.findAll(spec, pageable);
 
@@ -47,14 +47,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getOne(Long id) {
+    public UserDtoResponse getOne(Long id) {
         User user = findUserById(id);
 
         return userMapper.toResponse(user);
     }
 
     @Override
-    public UserResponse create(UserCreateRequest request) {
+    public UserDtoResponse create(UserCreateForm request) {
         User user = userMapper.toEntity(request);
 
         if (userRepository.existsByUsername(user.getUsername())){
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse update(Long id, UserUpdateRequest request) {
+    public UserDtoResponse update(Long id, UserUpdateForm request) {
         User user = findUserById(id);
 
         if (!Objects.equals(request.getHandle(), user.getUsername()) && userRepository.existsByUsername(request.getHandle())){
