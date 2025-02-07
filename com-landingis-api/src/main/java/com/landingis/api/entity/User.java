@@ -32,6 +32,9 @@ public class User {
     @Column(nullable = false)
     private Date birthDate;
 
+    @Column(nullable = true)
+    private Integer gender;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserCourse> userCourses = new ArrayList<>();

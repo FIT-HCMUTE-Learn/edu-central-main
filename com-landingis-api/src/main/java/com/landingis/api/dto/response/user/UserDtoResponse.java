@@ -14,4 +14,5 @@ public class UserDtoResponse {
     private String handle;
     private String userFullName;
     private Date userBirthday;
+    private Integer userGender;
 }
