@@ -1,5 +1,6 @@
 package com.landingis.api.form.user;
 
+import com.landingis.api.validation.GenderConstraint;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -30,4 +31,8 @@ public class UserUpdateForm {
     @ApiModelProperty(value = "User birth date (must be in the past)", example = "2000-01-15", required = true)
     @Past(message = "Birth date must be in the past")
     private Date userBirthday;
+
+    @ApiModelProperty(value = "Gender (1: Male, 2: Female, 3: Other)", example = "1", required = false)
+    @GenderConstraint(allowNull = true)
+    private Integer userGender;
 }
