@@ -1,6 +1,6 @@
 package com.landingis.api.mapper;
 
-import com.landingis.api.dto.response.user.UserDtoResponse;
+import com.landingis.api.dto.user.UserDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
 import com.landingis.api.entity.User;
@@ -8,7 +8,7 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
     @Mappings({
@@ -37,8 +37,8 @@ public interface UserMapper {
             @Mapping(source = "gender", target = "userGender")
     })
     @Named("mapUserToDto")
-    UserDtoResponse toResponse(User user);
+    UserDto toDto(User user);
 
-    @IterableMapping(elementTargetType = UserDtoResponse.class, qualifiedByName = "mapUserToDto")
-    List<UserDtoResponse> toResponseList(List<User> users);
+    @IterableMapping(elementTargetType = UserDto.class, qualifiedByName = "mapUserToDto")
+    List<UserDto> toDtoList(List<User> users);
 }

@@ -1,10 +1,10 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.dto.user.UserDto;
 import com.landingis.api.entity.criteria.UserCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
-import com.landingis.api.dto.response.user.UserDtoResponse;
 import com.landingis.api.entity.User;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
@@ -30,31 +30,31 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public List<UserDtoResponse> getAll() {
-        return userMapper.toResponseList(userRepository.findAll());
+    public List<UserDto> getAll() {
+        return userMapper.toDtoList(userRepository.findAll());
     }
 
     @Override
-    public PaginationDto<UserDtoResponse> getUsersPagination(UserCriteria userCriteria, Pageable pageable) {
+    public PaginationDto<UserDto> getUsersPagination(UserCriteria userCriteria, Pageable pageable) {
         Specification<User> spec = userCriteria.getSpecification();
         Page<User> usersPage = userRepository.findAll(spec, pageable);
 
         return new PaginationDto<>(
-                userMapper.toResponseList(usersPage.getContent()),
+                userMapper.toDtoList(usersPage.getContent()),
                 usersPage.getTotalElements(),
                 usersPage.getTotalPages()
         );
     }
 
     @Override
-    public UserDtoResponse getOne(Long id) {
+    public UserDto getOne(Long id) {
         User user = findUserById(id);
 
-        return userMapper.toResponse(user);
+        return userMapper.toDto(user);
     }
 
     @Override
-    public UserDtoResponse create(UserCreateForm request) {
+    public UserDto create(UserCreateForm request) {
         User user = userMapper.toEntity(request);
 
         if (userRepository.existsByUsername(user.getUsername())){
@@ -63,11 +63,12 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepository.save(user);
 
-        return userMapper.toResponse(savedUser);
+        return userMapper.toDto(savedUser);
     }
 
     @Override
-    public UserDtoResponse update(Long id, UserUpdateForm request) {
+    public UserDto update(UserUpdateForm request) {
+        Long id = request.getUserId();
         User user = findUserById(id);
 
         if (!Objects.equals(request.getHandle(), user.getUsername()) && userRepository.existsByUsername(request.getHandle())){
@@ -77,7 +78,7 @@ public class UserServiceImpl implements UserService {
         userMapper.updateEntity(user, request);
         User updatedUser = userRepository.save(user);
 
-        return userMapper.toResponse(updatedUser);
+        return userMapper.toDto(updatedUser);
     }
 
     @Override

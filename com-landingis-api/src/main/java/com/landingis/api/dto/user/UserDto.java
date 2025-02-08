@@ -1,4 +1,4 @@
-package com.landingis.api.dto.response.user;
+package com.landingis.api.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDtoResponse {
+public class UserDto {
     private Long userId;
     private String handle;
     private String userFullName;
