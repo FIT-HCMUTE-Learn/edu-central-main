@@ -1,5 +1,6 @@
 package com.landingis.api.entity;
 
+import com.landingis.api.enumeration.CompletionStatus;
 import com.landingis.api.enumeration.RegisterStatus;
 import lombok.*;
 
@@ -32,5 +33,8 @@ public class UserCourse {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RegisterStatus status;
+    private RegisterStatus registerStatus;
+
+    @Enumerated(EnumType.STRING)
+    private CompletionStatus completionStatus;
 }

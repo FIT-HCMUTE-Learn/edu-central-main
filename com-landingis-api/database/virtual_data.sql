@@ -45,7 +45,7 @@ INSERT INTO course(id, code, name) VALUES
 (20, 'CS120', 'Quantum Computing');
 
 -- 10 record user_course
-INSERT INTO user_course(id, user_id, course_id, date_register, status) VALUES
+INSERT INTO user_course(id, user_id, course_id, date_register, register_status) VALUES
 (1, 1, 2, CURRENT_DATE(), 'ACTIVE'),
 (2, 2, 3, CURRENT_DATE(), 'PENDING'),
 (3, 3, 5, CURRENT_DATE(), 'ACTIVE'),

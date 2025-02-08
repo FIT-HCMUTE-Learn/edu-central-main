@@ -4,13 +4,17 @@ import com.landingis.api.dto.intermediary.UserCourseDto;
 import com.landingis.api.entity.criteria.UserCourseCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.enumeration.RegisterStatus;
+import com.landingis.api.form.usercourse.UserCourseRegisterForm;
+import com.landingis.api.form.usercourse.UserCourseUnregisterForm;
+import com.landingis.api.form.usercourse.UserCourseUpdateForm;
 import com.landingis.api.service.UserCourseService;
 import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/registration")
@@ -32,19 +36,17 @@ public class CourseRegistrationController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/register/{userId}/{courseId}")
-    public ResponseEntity<ApiMessageDto<UserCourseDto>> registerCourse(@PathVariable Long userId,
-                                                                       @PathVariable Long courseId) {
+    @PostMapping("/register")
+    public ResponseEntity<ApiMessageDto<UserCourseDto>> registerCourse(@Valid @RequestBody UserCourseRegisterForm form) {
         ApiMessageDto<UserCourseDto> response = ApiMessageUtils
-                .success(userCourseService.registerCourse(userId, courseId), "Course registered successfully");
+                .success(userCourseService.registerCourse(form), "Course registered successfully");
 
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/unregister/{userId}/{courseId}")
-    public ResponseEntity<ApiMessageDto<Void>> unregisterCourse(@PathVariable Long userId,
-                                                                @PathVariable Long courseId) {
-        userCourseService.unregisterCourse(userId, courseId);
+    @DeleteMapping("/unregister")
+    public ResponseEntity<ApiMessageDto<Void>> unregisterCourse(@Valid @RequestBody UserCourseUnregisterForm form) {
+        userCourseService.unregisterCourse(form);
 
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "Course unregistered successfully");
@@ -52,14 +54,10 @@ public class CourseRegistrationController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/update/{userId}/{courseId}/status")
-    public ResponseEntity<ApiMessageDto<Void>> updateStatus(@PathVariable Long userId,
-                                                            @PathVariable Long courseId,
-                                                            @RequestParam RegisterStatus status) {
-        userCourseService.updateStatus(userId, courseId, status);
-
-        ApiMessageDto<Void> response = ApiMessageUtils
-                .success(null, "Status updated successfully");
+    @PutMapping("/update")
+    public ResponseEntity<ApiMessageDto<UserCourseDto>> updateRegisterStatus(@Valid @RequestBody UserCourseUpdateForm form) {
+        ApiMessageDto<UserCourseDto> response = ApiMessageUtils
+                .success(userCourseService.update(form), "Register status updated successfully");
 
         return ResponseEntity.ok(response);
     }
