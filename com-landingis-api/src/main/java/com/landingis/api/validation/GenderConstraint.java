@@ -1,11 +1,13 @@
 package com.landingis.api.validation;
 
+import com.landingis.api.validation.impl.GenderConstraintImpl;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = GenderValidator.class)
+@Constraint(validatedBy = GenderConstraintImpl.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GenderConstraint {

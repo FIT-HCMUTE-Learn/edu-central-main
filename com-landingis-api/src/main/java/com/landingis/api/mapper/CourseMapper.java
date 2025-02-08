@@ -1,6 +1,6 @@
 package com.landingis.api.mapper;
 
-import com.landingis.api.dto.response.course.CourseDtoResponse;
+import com.landingis.api.dto.course.CourseDto;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
 import com.landingis.api.entity.Course;
@@ -8,7 +8,7 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CourseMapper {
 
     @Mappings({
@@ -29,8 +29,8 @@ public interface CourseMapper {
             @Mapping(source = "code", target = "courseCode")
     })
     @Named("mapCourseToDto")
-    CourseDtoResponse toResponse(Course course);
+    CourseDto toDto(Course course);
 
-    @IterableMapping(elementTargetType = CourseDtoResponse.class, qualifiedByName = "mapCourseToDto")
-    List<CourseDtoResponse> toResponseList(List<Course> courses);
+    @IterableMapping(elementTargetType = CourseDto.class, qualifiedByName = "mapCourseToDto")
+    List<CourseDto> toDtoList(List<Course> courses);
 }

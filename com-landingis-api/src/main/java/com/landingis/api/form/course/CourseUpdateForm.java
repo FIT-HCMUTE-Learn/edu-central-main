@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -11,6 +12,10 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseUpdateForm {
+
+    @ApiModelProperty(value = "Course id", example = "1", required = true)
+    @NotNull(message = "Course id cannot be null")
+    private Long courseId;
 
     @ApiModelProperty(value = "Course name", example = "Web Development", required = true)
     @NotEmpty(message = "Course name cannot be empty")

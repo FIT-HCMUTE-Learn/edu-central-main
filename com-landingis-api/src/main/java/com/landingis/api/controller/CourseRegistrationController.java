@@ -1,9 +1,9 @@
 package com.landingis.api.controller;
 
+import com.landingis.api.dto.intermediary.UserCourseDto;
 import com.landingis.api.entity.criteria.UserCourseCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.dto.response.intermediary.UserCourseDtoResponse;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.service.UserCourseService;
 import com.landingis.api.util.ApiMessageUtils;
@@ -20,22 +20,22 @@ public class CourseRegistrationController {
     private UserCourseService userCourseService;
 
     @GetMapping("/list")
-    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseDtoResponse>>> getUserCourses(
+    public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseDto>>> getUserCourses(
             UserCourseCriteria userCourseCriteria,
             Pageable pageable
     ) {
 
-        PaginationDto<UserCourseDtoResponse> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
-        ApiMessageDto<PaginationDto<UserCourseDtoResponse>> response = ApiMessageUtils
+        PaginationDto<UserCourseDto> userCourses = userCourseService.getUserCoursesPagination(userCourseCriteria, pageable);
+        ApiMessageDto<PaginationDto<UserCourseDto>> response = ApiMessageUtils
                 .success(userCourses, "Successfully retrieved course registration with pagination");
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register/{userId}/{courseId}")
-    public ResponseEntity<ApiMessageDto<UserCourseDtoResponse>> registerCourse(@PathVariable Long userId,
-                                                                               @PathVariable Long courseId) {
-        ApiMessageDto<UserCourseDtoResponse> response = ApiMessageUtils
+    public ResponseEntity<ApiMessageDto<UserCourseDto>> registerCourse(@PathVariable Long userId,
+                                                                       @PathVariable Long courseId) {
+        ApiMessageDto<UserCourseDto> response = ApiMessageUtils
                 .success(userCourseService.registerCourse(userId, courseId), "Course registered successfully");
 
         return ResponseEntity.ok(response);
