@@ -1,8 +1,8 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.dto.course.CourseDto;
 import com.landingis.api.entity.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.dto.response.course.CourseDtoResponse;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
 import com.landingis.api.entity.Course;
@@ -30,31 +30,31 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
 
     @Override
-    public List<CourseDtoResponse> getAll() {
-        return courseMapper.toResponseList(courseRepository.findAll());
+    public List<CourseDto> getAll() {
+        return courseMapper.toDtoList(courseRepository.findAll());
     }
 
     @Override
-    public PaginationDto<CourseDtoResponse> getCoursesPagination(CourseCriteria courseCriteria, Pageable pageable) {
+    public PaginationDto<CourseDto> getCoursesPagination(CourseCriteria courseCriteria, Pageable pageable) {
         Specification<Course> spec = courseCriteria.getSpecification();
         Page<Course> coursePage = courseRepository.findAll(spec, pageable);
 
         return new PaginationDto<>(
-                courseMapper.toResponseList(coursePage.getContent()),
+                courseMapper.toDtoList(coursePage.getContent()),
                 coursePage.getTotalElements(),
                 coursePage.getTotalPages()
         );
     }
 
     @Override
-    public CourseDtoResponse getOne(Long id) {
+    public CourseDto getOne(Long id) {
         Course course = findCourseById(id);
 
-        return courseMapper.toResponse(course);
+        return courseMapper.toDto(course);
     }
 
     @Override
-    public CourseDtoResponse create(CourseCreateForm request) {
+    public CourseDto create(CourseCreateForm request) {
         Course course = courseMapper.toEntity(request);
 
         if (courseRepository.existsByCode(course.getCode())) {
@@ -63,11 +63,12 @@ public class CourseServiceImpl implements CourseService {
 
         Course savedCourse = courseRepository.save(course);
 
-        return courseMapper.toResponse(savedCourse);
+        return courseMapper.toDto(savedCourse);
     }
 
     @Override
-    public CourseDtoResponse update(Long id, CourseUpdateForm request) {
+    public CourseDto update(CourseUpdateForm request) {
+        Long id = request.getCourseId();
         Course course = findCourseById(id);
 
         if (!Objects.equals(request.getCourseCode(), course.getCode()) && courseRepository.existsByCode(request.getCourseCode())) {
@@ -77,7 +78,7 @@ public class CourseServiceImpl implements CourseService {
         courseMapper.updateEntity(course, request);
         Course updatedCourse = courseRepository.save(course);
 
-        return courseMapper.toResponse(updatedCourse);
+        return courseMapper.toDto(updatedCourse);
     }
 
     @Override

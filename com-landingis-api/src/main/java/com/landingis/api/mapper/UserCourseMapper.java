@@ -1,13 +1,14 @@
 package com.landingis.api.mapper;
 
-import com.landingis.api.dto.response.intermediary.UserCourseDtoResponse;
+import com.landingis.api.dto.intermediary.UserCourseDto;
 import com.landingis.api.entity.UserCourse;
 import org.mapstruct.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, CourseMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {UserMapper.class, CourseMapper.class})
 public interface UserCourseMapper {
 
     @Mappings({
@@ -18,10 +19,10 @@ public interface UserCourseMapper {
             @Mapping(source = "status", target = "status")
     })
     @Named("mapUserCourseToDto")
-    UserCourseDtoResponse toResponse(UserCourse userCourse);
+    UserCourseDto toResponse(UserCourse userCourse);
 
-    @IterableMapping(elementTargetType = UserCourseDtoResponse.class, qualifiedByName = "mapUserCourseToDto")
-    List<UserCourseDtoResponse> toResponseList(List<UserCourse> userCourses);
+    @IterableMapping(elementTargetType = UserCourseDto.class, qualifiedByName = "mapUserCourseToDto")
+    List<UserCourseDto> toResponseList(List<UserCourse> userCourses);
 
     @Named("formatDate")
     static String formatDate(LocalDate date) {

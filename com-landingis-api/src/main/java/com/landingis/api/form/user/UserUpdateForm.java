@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -14,6 +15,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserUpdateForm {
+
+    @ApiModelProperty(value = "User id", example = "1", required = true)
+    @NotNull(message = "User id cannot be null")
+    private Long userId;
 
     @ApiModelProperty(value = "User handle (username)", example = "johndoe", required = true)
     @NotEmpty(message = "Handle cannot be empty")
