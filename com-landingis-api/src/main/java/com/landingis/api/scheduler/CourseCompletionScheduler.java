@@ -1,4 +1,4 @@
-package com.landingis.api.shceduler;
+package com.landingis.api.scheduler;
 
 import com.landingis.api.service.UserCourseService;
 import org.springframework.beans.factory.annotation.Autowired;

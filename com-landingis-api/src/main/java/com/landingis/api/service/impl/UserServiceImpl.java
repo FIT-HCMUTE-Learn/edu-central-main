@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getAll() {
@@ -61,6 +65,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("User with username " + user.getUsername() + " already exists");
         }
 
+        user.setPassword(passwordEncoder.encode(request.getUserPassword()));
         User savedUser = userRepository.save(user);
 
         return userMapper.toDto(savedUser);
@@ -76,6 +81,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userMapper.updateEntity(user, request);
+        user.setPassword(passwordEncoder.encode(request.getUserPassword()));
         User updatedUser = userRepository.save(user);
 
         return userMapper.toDto(updatedUser);

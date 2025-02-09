@@ -6,21 +6,20 @@ import com.landingis.api.entity.User;
 import com.landingis.api.entity.UserCourse;
 import com.landingis.api.enumeration.CompletionStatus;
 import com.landingis.api.enumeration.RegisterStatus;
-import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.form.usercourse.UserCourseRegisterForm;
 import com.landingis.api.form.usercourse.UserCourseUpdateForm;
 import com.landingis.api.repository.CourseRepository;
 import com.landingis.api.repository.UserRepository;
+import com.landingis.api.util.FormatUtils;
+import com.landingis.api.util.MappingUtils;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {UserMapper.class, CourseMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, CourseMapper.class})
 @Component
 public abstract class UserCourseMapper {
 
@@ -39,7 +38,7 @@ public abstract class UserCourseMapper {
     @Mappings({
             @Mapping(source = "userId", target = "user", qualifiedByName = "mapUserIdToUser"),
             @Mapping(source = "courseId", target = "course", qualifiedByName = "mapCourseIdToCourse"),
-            @Mapping(source = "dateRegister", target = "dateRegister", qualifiedByName = "formatStringToDate"),
+            @Mapping(source = "dateRegister", target = "dateRegister", qualifiedByName = "parseDate"),
             @Mapping(source = "registerStatus", target = "registerStatus", qualifiedByName = "mapStringToRegisterStatus"),
             @Mapping(source = "completionStatus", target = "completionStatus", qualifiedByName = "mapStringToCompletionStatus")
     })
@@ -61,58 +60,32 @@ public abstract class UserCourseMapper {
 
     @Named("formatDate")
     public static String formatDate(LocalDate date) {
-        return (date != null) ? date.format(DateTimeFormatter.ISO_DATE) : null;
+        return FormatUtils.formatDate(date);
     }
 
-    @Named("formatStringToDate")
-    public static LocalDate formatStringToDate(String date) {
-        return (date != null && !date.isEmpty()) ? LocalDate.parse(date, DateTimeFormatter.ISO_DATE) : null;
+    @Named("parseDate")
+    public static LocalDate parseDate(String date) {
+        return FormatUtils.parseDate(date);
     }
 
     @Named("mapUserIdToUser")
     public User mapUserIdToUser(Long userId) {
-        if (userId == null) return null;
-
-        return userRepository.findById(userId).orElseThrow(
-                () -> new ResourceNotFoundException("User with id " + userId + " not found")
-        );
+        return MappingUtils.getEntityById(userRepository, userId, User.class);
     }
 
     @Named("mapCourseIdToCourse")
     public Course mapCourseIdToCourse(Long courseId) {
-        if (courseId == null) return null;
-
-        return courseRepository.findById(courseId).orElseThrow(
-                () -> new ResourceNotFoundException("Course with id " + courseId + " not found")
-        );
+        return MappingUtils.getEntityById(courseRepository, courseId, Course.class);
     }
 
-    /**
-     * Convert String to RegisterStatus Enum.
-     */
     @Named("mapStringToRegisterStatus")
-    public static RegisterStatus mapStringToRegisterStatus(String status) {
-        if (status == null || status.trim().isEmpty()) {
-            throw new IllegalArgumentException("RegisterStatus cannot be null or empty");
-        }
-        try {
-            return RegisterStatus.valueOf(status.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid RegisterStatus: '" + status + "'. Allowed values: "
-                    + List.of(RegisterStatus.values()));
-        }
+    public static RegisterStatus mapStringToRegisterStatus(String value) {
+        return MappingUtils.mapStringToEnum(value, RegisterStatus.class);
     }
 
     @Named("mapStringToCompletionStatus")
-    public static CompletionStatus mapStringToCompletionStatus(String status) {
-        if (status == null || status.trim().isEmpty()) {
-            throw new IllegalArgumentException("CompletionStatus cannot be null or empty");
-        }
-        try {
-            return CompletionStatus.valueOf(status.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid CompletionStatus: '" + status + "'. Allowed values: "
-                    + List.of(CompletionStatus.values()));
-        }
+    public static CompletionStatus mapStringToCompletionStatus(String value) {
+        return MappingUtils.mapStringToEnum(value, CompletionStatus.class);
     }
+
 }
