@@ -11,4 +11,5 @@ public class CourseDto {
     private Long courseId;
     private String courseName;
     private String courseCode;
+    private String courseStatus;
 }

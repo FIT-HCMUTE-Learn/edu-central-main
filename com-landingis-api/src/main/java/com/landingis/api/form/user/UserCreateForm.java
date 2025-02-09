@@ -3,6 +3,7 @@ package com.landingis.api.form.user;
 import io.swagger.annotations.ApiModelProperty;
 import com.landingis.api.validation.GenderConstraint;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
