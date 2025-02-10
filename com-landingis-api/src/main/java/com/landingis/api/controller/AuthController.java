@@ -1,26 +1,26 @@
 package com.landingis.api.controller;
 
-import com.landingis.api.dto.JwtDto;
+import com.landingis.api.dto.AuthDto;
 import com.landingis.api.form.LoginForm;
 import com.landingis.api.model.User;
 import com.landingis.api.repository.UserRepository;
 import com.landingis.api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
-    private JwtUtil jwtUtils;
+    private JwtUtil jwtUtil;
 
     @Autowired
     private UserRepository userRepository;
@@ -30,19 +30,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm) {
-        // Find user by username
-        User user = userRepository.findByUsername(loginForm.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password"));
+        Optional<User> user = userRepository.findByUsername(loginForm.getUsername());
 
-        // Verify password using BCrypt
-//        if (!passwordEncoder.matches(loginForm.getPassword(), user.getPassword())) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
+//        if (user.isEmpty() || !passwordEncoder.matches(loginForm.getPassword(), user.get().getPassword())) {
+//            throw new RuntimeException("Invalid username or password");
 //        }
 
-        // Generate JWT Token containing role
-        String token = jwtUtils.generateToken(user);
-
-        // Return token, username, and role
-        return ResponseEntity.ok(new JwtDto(token, user.getUsername(), user.getRole().name()));
+        String token = jwtUtil.generateToken(user.get().getUsername(), user.get().getRole().name());
+        return ResponseEntity.ok(new AuthDto(token, user.get().getUsername(), user.get().getRole().name()));
     }
 }

@@ -1,75 +1,50 @@
 package com.landingis.api.util;
-import com.landingis.api.model.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import java.util.Date;
-import java.util.List;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
+import java.util.function.Function;
 
 @Component
 public class JwtUtil {
 
     @Value("${jwt.secret}")
-    private String jwtSecret;
+    private String secret;
 
     @Value("${jwt.expiration}")
-    private long jwtExpiration;
+    private long expirationTime;
 
-    private Key getSigningKey() {
-        return new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), SignatureAlgorithm.HS256.getJcaName());
-    }
-
-    // Generate JWT Token with username and roles
-    public String generateToken(User user) {
+    // Generate token with username & role
+    public String generateToken(String username, String role) {
         return Jwts.builder()
-                .setSubject(user.getUsername()) // Store username
-                .claim("role", user.getRole().name()) // Store role
+                .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                .signWith(SignatureAlgorithm.HS256, jwtSecret)
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
-    // Extract Username from Token
+    // Extract username from token
     public String extractUsername(String token) {
-        return getClaimsFromToken(token).getSubject();
-    }
-
-    // Extract Roles from Token
-    public List<String> extractRoles(String token) {
-        return (List<String>) getClaimsFromToken(token).get("role");
+        return extractClaim(token, Claims::getSubject);
     }
 
     // Extract role from token
-    public String getRoleFromToken(String token) {
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
+    // Extract any claim
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
+                .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
-
-        return claims.get("role", String.class);
-    }
-
-    // Validate Token
-    public boolean validateToken(String token) {
-        try {
-            getClaimsFromToken(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    // Helper Method: Parse Token and Get Claims
-    private Claims getClaimsFromToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtSecret.getBytes(StandardCharsets.UTF_8))
-                .parseClaimsJws(token)
-                .getBody();
+        return claimsResolver.apply(claims);
     }
 }
