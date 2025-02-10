@@ -3,7 +3,7 @@ package com.landingis.api.mapper;
 import com.landingis.api.dto.user.UserDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
-import com.landingis.api.entity.User;
+import com.landingis.api.model.User;
 import org.mapstruct.*;
 
 import java.util.List;

@@ -1,25 +1,25 @@
 -- 20 Users
-INSERT INTO `user`(id, username, password, full_name, birth_date) VALUES
-(1, 'user1', 'abc', 'John Doe', SYSDATE()),
-(2, 'user2', 'abc', 'Jane Smith', SYSDATE()),
-(3, 'user3', 'abc', 'Alice Brown', SYSDATE()),
-(4, 'user4', 'abc', 'Bob Johnson', SYSDATE()),
-(5, 'user5', 'abc', 'Charlie White', SYSDATE()),
-(6, 'user6', 'abc', 'David Black', SYSDATE()),
-(7, 'user7', 'abc', 'Emma Watson', SYSDATE()),
-(8, 'user8', 'abc', 'Frank Green', SYSDATE()),
-(9, 'user9', 'abc', 'Grace Hall', SYSDATE()),
-(10, 'user10', 'abc', 'Hannah Lewis', SYSDATE()),
-(11, 'user11', 'abc', 'Ivy Martin', SYSDATE()),
-(12, 'user12', 'abc', 'Jack Lee', SYSDATE()),
-(13, 'user13', 'abc', 'Kelly Adams', SYSDATE()),
-(14, 'user14', 'abc', 'Liam Scott', SYSDATE()),
-(15, 'user15', 'abc', 'Mia Harris', SYSDATE()),
-(16, 'user16', 'abc', 'Noah King', SYSDATE()),
-(17, 'user17', 'abc', 'Olivia Moore', SYSDATE()),
-(18, 'user18', 'abc', 'Paul Wilson', SYSDATE()),
-(19, 'user19', 'abc', 'Quinn Young', SYSDATE()),
-(20, 'user20', 'abc', 'Rachel Evans', SYSDATE());
+INSERT INTO `user` (id, username, password, full_name, birth_date, role) VALUES
+(1, 'user1', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'John Doe', SYSDATE(), 'USER'),
+(2, 'user2', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Jane Smith', SYSDATE(), 'USER'),
+(3, 'user3', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Alice Brown', SYSDATE(), 'USER'),
+(4, 'user4', 'abc', 'Bob Johnson', SYSDATE(), 'USER'),
+(5, 'user5', 'abc', 'Charlie White', SYSDATE(), 'USER'),
+(6, 'user6', 'abc', 'David Black', SYSDATE(), 'USER'),
+(7, 'user7', 'abc', 'Emma Watson', SYSDATE(), 'USER'),
+(8, 'user8', 'abc', 'Frank Green', SYSDATE(), 'USER'),
+(9, 'user9', 'abc', 'Grace Hall', SYSDATE(), 'USER'),
+(10, 'user10', 'abc', 'Hannah Lewis', SYSDATE(), 'USER'),
+(11, 'user11', 'abc', 'Ivy Martin', SYSDATE(), 'USER'),
+(12, 'user12', 'abc', 'Jack Lee', SYSDATE(), 'USER'),
+(13, 'user13', 'abc', 'Kelly Adams', SYSDATE(), 'USER'),
+(14, 'user14', 'abc', 'Liam Scott', SYSDATE(), 'USER'),
+(15, 'user15', 'abc', 'Mia Harris', SYSDATE(), 'USER'),
+(16, 'user16', 'abc', 'Noah King', SYSDATE(), 'USER'),
+(17, 'user17', 'abc', 'Olivia Moore', SYSDATE(), 'USER'),
+(18, 'user18', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Paul Wilson', SYSDATE(), 'ADMIN'),
+(19, 'user19', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Quinn Young', SYSDATE(), 'ADMIN'),
+(20, 'user20', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Rachel Evans', SYSDATE(), 'ADMIN');
 
 -- 20 Courses
 INSERT INTO course(id, code, name) VALUES

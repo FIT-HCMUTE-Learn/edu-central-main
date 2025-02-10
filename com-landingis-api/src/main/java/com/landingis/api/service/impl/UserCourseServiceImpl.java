@@ -1,11 +1,12 @@
 package com.landingis.api.service.impl;
 
 import com.landingis.api.dto.intermediary.UserCourseDto;
-import com.landingis.api.entity.criteria.UserCourseCriteria;
+import com.landingis.api.enumeration.CourseState;
+import com.landingis.api.model.criteria.UserCourseCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.entity.Course;
-import com.landingis.api.entity.UserCourse;
-import com.landingis.api.enumeration.CompletionStatus;
+import com.landingis.api.model.Course;
+import com.landingis.api.model.UserCourse;
+import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
@@ -22,8 +23,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserCourseServiceImpl implements UserCourseService {
@@ -87,24 +91,26 @@ public class UserCourseServiceImpl implements UserCourseService {
     }
 
     @Override
+    @Transactional
     public void checkAndUpdateCourseCompletion() {
-        List<Course> courses = courseRepository.findAll();
+        List<UserCourse> allUserCourses = userCourseRepository.findAll();
 
-        for (Course course : courses) {
-            List<UserCourse> userCourses = userCourseRepository.findByCourseId(course.getId());
+        // Group UserCourse by Course
+        Map<Course, List<UserCourse>> courseUserMap = allUserCourses.stream()
+                .collect(Collectors.groupingBy(UserCourse::getCourse));
 
-            if (userCourses.isEmpty()) {
-                continue;
-            }
+        // Filter only courses that are not completed yet and all UserCourses are completed
+        List<Course> coursesToUpdate = courseUserMap.entrySet().stream()
+                .filter(entry -> entry.getKey().getStatus() != CourseState.COMPLETED)
+                .filter(entry -> entry.getValue().stream()
+                        .allMatch(userCourse -> userCourse.getLearningState() == LearningState.COMPLETED))
+                .map(Map.Entry::getKey)
+                .peek(course -> course.setStatus(CourseState.COMPLETED))
+                .collect(Collectors.toList());
 
-            boolean allUsersCompleted = userCourses.stream()
-                    .allMatch(userCourse -> userCourse.getCompletionStatus() == CompletionStatus.COMPLETED);
-
-            if (allUsersCompleted && course.getStatus() != CompletionStatus.COMPLETED) {
-                course.setStatus(CompletionStatus.COMPLETED);
-                courseRepository.save(course);
-                System.out.println("Course " + course.getId() + " (" + course.getName() + ") completed.");
-            }
+        if (!coursesToUpdate.isEmpty()) {
+            courseRepository.saveAll(coursesToUpdate);
+            System.out.println(coursesToUpdate.size() + " courses marked as COMPLETED");
         }
     }
 }

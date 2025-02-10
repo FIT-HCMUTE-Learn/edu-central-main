@@ -15,5 +15,5 @@ public class UserCourseDto {
     private CourseDto course;
     private String dateRegister;
     private String registerStatus;
-    private String completionStatus;
+    private String learningState;
 }

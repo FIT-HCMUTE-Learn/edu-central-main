@@ -1,7 +1,7 @@
 package com.landingis.api.controller;
 
 import com.landingis.api.dto.user.UserDto;
-import com.landingis.api.entity.criteria.UserCriteria;
+import com.landingis.api.model.criteria.UserCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
@@ -84,6 +84,15 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiMessageDto<Void>> deleteUser(@PathVariable Long id) {
         userService.delete(id);
+        ApiMessageDto<Void> response = ApiMessageUtils
+                .success(null, "User deleted successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete-with-data-source/{id}")
+    public ResponseEntity<ApiMessageDto<Void>> deleteCourseWithDataSource(@PathVariable Long id) {
+        userService.deleteWithDataSource(id);
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "User deleted successfully");
 

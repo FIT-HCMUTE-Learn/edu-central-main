@@ -1,6 +1,7 @@
-package com.landingis.api.entity;
+package com.landingis.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.landingis.api.enumeration.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,6 +35,10 @@ public class User {
 
     @Column(nullable = true)
     private Integer gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
