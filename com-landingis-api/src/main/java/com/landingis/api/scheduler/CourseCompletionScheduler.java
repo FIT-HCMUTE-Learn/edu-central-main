@@ -11,11 +11,10 @@ public class CourseCompletionScheduler {
     @Autowired
     private UserCourseService userCourseService;
 
-    // @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 5000)
     // ss mm  hh  dd  MM  ww
-    @Scheduled(cron = "0 0 0 * * ?")
+    // @Scheduled(cron = "0 0 0 * * ?")
     public void runCourseCompletionCheck() {
-        System.out.println("Checking course completion status ...");
         userCourseService.checkAndUpdateCourseCompletion();
     }
 }

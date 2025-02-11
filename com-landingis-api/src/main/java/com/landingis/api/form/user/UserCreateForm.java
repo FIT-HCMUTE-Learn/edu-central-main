@@ -22,7 +22,6 @@ public class UserCreateForm {
     private String handle;
 
     @ApiModelProperty(value = "User password", example = "Secure@123", required = true)
-    @NotEmpty(message = "Password cannot be empty")
     @Pattern(
             regexp = "^(?=.*[A-Z])(?=.*\\W).{6,}$",
             message = "Password must have at least 6 characters, 1 uppercase letter, and 1 special character"

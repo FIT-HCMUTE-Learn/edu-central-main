@@ -3,10 +3,12 @@ package com.landingis.api.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
-public class AuthDto {
+public class AuthenticationDto {
     private String token;
     private String username;
-    private String role;
+    private List<String> permissions;
 }

@@ -18,7 +18,6 @@ public class UserUpdateForm {
     private Long userId;
 
     @ApiModelProperty(value = "User handle (username)", example = "johndoe", required = true)
-    @NotEmpty(message = "Handle cannot be empty")
     private String handle;
 
     @ApiModelProperty(value = "User password", example = "Secure@123", required = true)

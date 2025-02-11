@@ -1,4 +1,4 @@
--- 20 Users
+-- Insert sample users
 INSERT INTO `user` (id, username, password, full_name, birth_date, role) VALUES
 (1, 'user1', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'John Doe', SYSDATE(), 'USER'),
 (2, 'user2', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Jane Smith', SYSDATE(), 'USER'),
@@ -21,38 +21,53 @@ INSERT INTO `user` (id, username, password, full_name, birth_date, role) VALUES
 (19, 'user19', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Quinn Young', SYSDATE(), 'ADMIN'),
 (20, 'user20', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Rachel Evans', SYSDATE(), 'ADMIN');
 
--- 20 Courses
-INSERT INTO course(id, code, name) VALUES
-(1, 'CS101', 'Intro to Computer Science'),
-(2, 'CS102', 'Data Structures and Algorithms'),
-(3, 'CS103', 'Operating Systems'),
-(4, 'CS104', 'Computer Networks'),
-(5, 'CS105', 'Database Management Systems'),
-(6, 'CS106', 'Software Engineering'),
-(7, 'CS107', 'Artificial Intelligence'),
-(8, 'CS108', 'Machine Learning'),
-(9, 'CS109', 'Cybersecurity Fundamentals'),
-(10, 'CS110', 'Blockchain Technology'),
-(11, 'CS111', 'Cloud Computing'),
-(12, 'CS112', 'Big Data Analytics'),
-(13, 'CS113', 'IoT and Embedded Systems'),
-(14, 'CS114', 'Web Development'),
-(15, 'CS115', 'Mobile App Development'),
-(16, 'CS116', 'Game Development'),
-(17, 'CS117', 'Computer Vision'),
-(18, 'CS118', 'Natural Language Processing'),
-(19, 'CS119', 'DevOps and Continuous Integration'),
-(20, 'CS120', 'Quantum Computing');
+-- Insert sample courses
+INSERT INTO course(id, code, name, status) VALUES
+(1, 'CS101', 'Intro to Computer Science', 'IN_PROGRESS'),
+(2, 'CS102', 'Data Structures and Algorithms', 'IN_PROGRESS'),
+(3, 'CS103', 'Operating Systems', 'IN_PROGRESS'),
+(4, 'CS104', 'Computer Networks', 'IN_PROGRESS'),
+(5, 'CS105', 'Database Management Systems', 'IN_PROGRESS'),
+(6, 'CS106', 'Software Engineering', 'IN_PROGRESS'),
+(7, 'CS107', 'Artificial Intelligence', 'IN_PROGRESS'),
+(8, 'CS108', 'Machine Learning', 'IN_PROGRESS'),
+(9, 'CS109', 'Cybersecurity Fundamentals', 'IN_PROGRESS'),
+(10, 'CS110', 'Blockchain Technology', 'IN_PROGRESS'),
+(11, 'CS111', 'Cloud Computing', 'IN_PROGRESS'),
+(12, 'CS112', 'Big Data Analytics', 'IN_PROGRESS'),
+(13, 'CS113', 'IoT and Embedded Systems', 'IN_PROGRESS'),
+(14, 'CS114', 'Web Development', 'IN_PROGRESS'),
+(15, 'CS115', 'Mobile App Development', 'IN_PROGRESS'),
+(16, 'CS116', 'Game Development', 'IN_PROGRESS'),
+(17, 'CS117', 'Computer Vision', 'IN_PROGRESS'),
+(18, 'CS118', 'Natural Language Processing', 'IN_PROGRESS'),
+(19, 'CS119', 'DevOps and Continuous Integration', 'IN_PROGRESS'),
+(20, 'CS120', 'Quantum Computing', 'IN_PROGRESS');
 
--- 10 record user_course
-INSERT INTO user_course(id, user_id, course_id, date_register, register_status) VALUES
-(1, 1, 2, CURRENT_DATE(), 'ACTIVE'),
-(2, 2, 3, CURRENT_DATE(), 'PENDING'),
-(3, 3, 5, CURRENT_DATE(), 'ACTIVE'),
-(4, 4, 7, CURRENT_DATE(), 'PENDING'),
-(5, 5, 8, CURRENT_DATE(), 'ACTIVE'),
-(6, 6, 10, CURRENT_DATE(), 'PENDING'),
-(7, 7, 12, CURRENT_DATE(), 'ACTIVE'),
-(8, 8, 15, CURRENT_DATE(), 'PENDING'),
-(9, 9, 18, CURRENT_DATE(), 'ACTIVE'),
-(10, 10, 20, CURRENT_DATE(), 'PENDING');
+-- Assign users to courses
+INSERT INTO user_course(id, user_id, course_id, date_register, register_status, learning_state) VALUES
+(1, 1, 2, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
+(2, 2, 3, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS'),
+(3, 3, 5, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
+(4, 4, 7, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS'),
+(5, 5, 8, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
+(6, 6, 10, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS'),
+(7, 7, 12, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
+(8, 8, 15, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS'),
+(9, 9, 18, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
+(10, 10, 20, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS');
+
+-- Insert sample permissions
+INSERT INTO permissions (pcode) VALUES
+('C_GET'), ('C_CRE'), ('C_UPD'), ('C_DEL');
+
+-- Assign permissions to 'user1'
+INSERT INTO user_permissions (user_id, permission_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 1),
+(2, 2),
+(3, 1),
+(3, 3);

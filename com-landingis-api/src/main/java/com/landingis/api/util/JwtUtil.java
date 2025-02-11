@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
 
 @Component
@@ -18,11 +19,11 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
-    // Generate token with username & role
-    public String generateToken(String username, String role) {
+    // Generate token with username & pcodes
+    public String generateToken(String username, List<String> pcodes) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role)
+                .claim("pcodes", pcodes)  // Store permissions in JWT
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, secret)
@@ -34,9 +35,10 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Extract role from token
-    public String extractRole(String token) {
-        return extractClaim(token, claims -> claims.get("role", String.class));
+    // Extract permissions (pcodes) from token
+    @SuppressWarnings("unchecked")
+    public List<String> extractPcodes(String token) {
+        return extractClaim(token, claims -> claims.get("pcodes", List.class));
     }
 
     // Extract any claim

@@ -1,12 +1,9 @@
 package com.landingis.api.service.impl;
 
 import com.landingis.api.dto.intermediary.UserCourseDto;
-import com.landingis.api.enumeration.CourseState;
 import com.landingis.api.model.criteria.UserCourseCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.model.Course;
 import com.landingis.api.model.UserCourse;
-import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
@@ -25,9 +22,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class UserCourseServiceImpl implements UserCourseService {
@@ -93,24 +87,6 @@ public class UserCourseServiceImpl implements UserCourseService {
     @Override
     @Transactional
     public void checkAndUpdateCourseCompletion() {
-        List<UserCourse> allUserCourses = userCourseRepository.findAll();
-
-        // Group UserCourse by Course
-        Map<Course, List<UserCourse>> courseUserMap = allUserCourses.stream()
-                .collect(Collectors.groupingBy(UserCourse::getCourse));
-
-        // Filter only courses that are not completed yet and all UserCourses are completed
-        List<Course> coursesToUpdate = courseUserMap.entrySet().stream()
-                .filter(entry -> entry.getKey().getStatus() != CourseState.COMPLETED)
-                .filter(entry -> entry.getValue().stream()
-                        .allMatch(userCourse -> userCourse.getLearningState() == LearningState.COMPLETED))
-                .map(Map.Entry::getKey)
-                .peek(course -> course.setStatus(CourseState.COMPLETED))
-                .collect(Collectors.toList());
-
-        if (!coursesToUpdate.isEmpty()) {
-            courseRepository.saveAll(coursesToUpdate);
-            System.out.println(coursesToUpdate.size() + " courses marked as COMPLETED");
-        }
+        courseRepository.updateCompletedCourses();
     }
 }

@@ -38,8 +38,8 @@ public class UserCourseUpdateForm {
     @ValidEnum(enumClass = RegisterStatus.class, message = "Invalid register status")
     private String registerStatus;
 
-    @ApiModelProperty(value = "Completion status", example = "COMPLETED", required = true)
-    @NotNull(message = "Completion status cannot be null")
+    @ApiModelProperty(value = "Learning state", example = "COMPLETED", required = true)
+    @NotNull(message = "Learning state cannot be null")
     @ValidEnum(enumClass = LearningState.class, message = "Invalid completion status")
     private String learningState;
 }
