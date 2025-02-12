@@ -10,7 +10,8 @@ public enum ErrorCode {
     NOT_FOUND("NOT_FOUND", "Resource not found"),
     UNKNOWN_ERROR("UNKNOWN_ERROR", "Unknown error"),
     BUSINESS_ERROR("BUSINESS_ERROR", "Business logic error"),
-    METHOD_NOT_ALLOWED("METHOD_NOT_ALLOWED", "Method not allowed");
+    METHOD_NOT_ALLOWED("METHOD_NOT_ALLOWED", "Method not allowed"),
+    AUTHENTICATION_ERROR("AUTHENTICATION_ERROR", "Authentication error");
 
     private final String code;
     private final String message;

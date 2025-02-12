@@ -80,6 +80,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    // Authentication Errors
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiMessageDto<Void>> handleAuthenticationException(AuthenticationException ex) {
+        ApiMessageDto<Void> response = new ApiMessageDto<>(
+                false,
+                ErrorCode.AUTHENTICATION_ERROR.getCode(),
+                null,
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
     // Other Errors
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiMessageDto<Void>> handleGlobalException(Exception ex) {

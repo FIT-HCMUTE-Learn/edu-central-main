@@ -3,7 +3,7 @@ package com.landingis.api.mapper;
 import com.landingis.api.dto.course.CourseDto;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
-import com.landingis.api.entity.Course;
+import com.landingis.api.model.Course;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -15,18 +15,19 @@ public interface CourseMapper {
             @Mapping(source = "courseName", target = "name"),
             @Mapping(source = "courseCode", target = "code")
     })
-    Course toEntity(CourseCreateForm request);
+    Course toEntity(CourseCreateForm form);
 
     @Mappings({
             @Mapping(source = "courseName", target = "name"),
             @Mapping(source = "courseCode", target = "code")
     })
-    void updateEntity(@MappingTarget Course course, CourseUpdateForm request);
+    void updateEntity(@MappingTarget Course course, CourseUpdateForm form);
 
     @Mappings({
             @Mapping(source = "id", target = "courseId"),
             @Mapping(source = "name", target = "courseName"),
-            @Mapping(source = "code", target = "courseCode")
+            @Mapping(source = "code", target = "courseCode"),
+            @Mapping(source = "status", target = "courseStatus")
     })
     @Named("mapCourseToDto")
     CourseDto toDto(Course course);

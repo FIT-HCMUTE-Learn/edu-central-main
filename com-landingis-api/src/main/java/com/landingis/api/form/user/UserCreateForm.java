@@ -3,9 +3,11 @@ package com.landingis.api.form.user;
 import io.swagger.annotations.ApiModelProperty;
 import com.landingis.api.validation.GenderConstraint;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -19,9 +21,11 @@ public class UserCreateForm {
     @NotEmpty(message = "Handle cannot be empty")
     private String handle;
 
-    @ApiModelProperty(value = "User password", example = "securePass123", required = true)
-    @NotEmpty(message = "Password cannot be empty")
-    @Size(min = 8, message = "Password must be at least 8 characters")
+    @ApiModelProperty(value = "User password", example = "Secure@123", required = true)
+    @Pattern(
+            regexp = "^(?=.*[A-Z])(?=.*\\W).{6,}$",
+            message = "Password must have at least 6 characters, 1 uppercase letter, and 1 special character"
+    )
     private String userPassword;
 
     @ApiModelProperty(value = "Full name", example = "John Doe", required = true)

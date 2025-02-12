@@ -4,10 +4,7 @@ import com.landingis.api.validation.GenderConstraint;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Getter
@@ -21,12 +18,14 @@ public class UserUpdateForm {
     private Long userId;
 
     @ApiModelProperty(value = "User handle (username)", example = "johndoe", required = true)
-    @NotEmpty(message = "Handle cannot be empty")
     private String handle;
 
-    @ApiModelProperty(value = "User password", example = "securePass123", required = true)
+    @ApiModelProperty(value = "User password", example = "Secure@123", required = true)
     @NotEmpty(message = "Password cannot be empty")
-    @Size(min = 8, message = "Password must be at least 8 characters")
+    @Pattern(
+            regexp = "^(?=.*[A-Z])(?=.*\\W).{6,}$",
+            message = "Password must have at least 6 characters, 1 uppercase letter, and 1 special character"
+    )
     private String userPassword;
 
     @ApiModelProperty(value = "Full name", example = "John Doe", required = true)

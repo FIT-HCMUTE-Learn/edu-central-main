@@ -3,7 +3,7 @@ package com.landingis.api.mapper;
 import com.landingis.api.dto.user.UserDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
-import com.landingis.api.entity.User;
+import com.landingis.api.model.User;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface UserMapper {
             @Mapping(source = "userBirthday", target = "birthDate"),
             @Mapping(source = "userGender", target = "gender")
     })
-    User toEntity(UserCreateForm request);
+    User toEntity(UserCreateForm form);
 
     @Mappings({
             @Mapping(source = "handle", target = "username"),
@@ -27,7 +27,7 @@ public interface UserMapper {
             @Mapping(source = "userBirthday", target = "birthDate"),
             @Mapping(source = "userGender", target = "gender")
     })
-    void updateEntity(@MappingTarget User user, UserUpdateForm request);
+    void updateEntity(@MappingTarget User user, UserUpdateForm form);
 
     @Mappings({
             @Mapping(source = "id", target = "userId"),

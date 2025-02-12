@@ -1,7 +1,8 @@
-package com.landingis.api.entity.criteria;
+package com.landingis.api.model.criteria;
 
+import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
-import com.landingis.api.entity.UserCourse;
+import com.landingis.api.model.UserCourse;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,7 +30,8 @@ public class UserCourseCriteria {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate endDate;
 
-    private RegisterStatus status;
+    private RegisterStatus registerStatus;
+    private LearningState completionStatus;
 
     public Specification<UserCourse> getSpecification() {
         return (root, query, cb) -> {
@@ -66,8 +68,11 @@ public class UserCourseCriteria {
                 predicates.add(cb.lessThanOrEqualTo(root.get("dateRegister"), endDate));
             }
 
-            if (status != null) {
-                predicates.add(cb.equal(root.get("status"), status));
+            if (registerStatus != null) {
+                predicates.add(cb.equal(root.get("registerStatus"), registerStatus));
+            }
+            if (completionStatus != null) {
+                predicates.add(cb.equal(root.get("completionStatus"), completionStatus));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

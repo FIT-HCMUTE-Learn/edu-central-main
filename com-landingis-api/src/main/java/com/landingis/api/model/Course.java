@@ -1,6 +1,7 @@
-package com.landingis.api.entity;
+package com.landingis.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.landingis.api.enumeration.CourseState;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,9 @@ public class Course {
 
     @Column(nullable = false, unique = true)
     private String code;
+
+    @Enumerated(EnumType.STRING)
+    private CourseState status;
 
     @JsonIgnore
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
