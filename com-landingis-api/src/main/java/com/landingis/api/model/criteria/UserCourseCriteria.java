@@ -1,8 +1,8 @@
-package com.landingis.api.entity.criteria;
+package com.landingis.api.model.criteria;
 
-import com.landingis.api.enumeration.CompletionStatus;
+import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
-import com.landingis.api.entity.UserCourse;
+import com.landingis.api.model.UserCourse;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,7 +31,7 @@ public class UserCourseCriteria {
     private LocalDate endDate;
 
     private RegisterStatus registerStatus;
-    private CompletionStatus completionStatus;
+    private LearningState completionStatus;
 
     public Specification<UserCourse> getSpecification() {
         return (root, query, cb) -> {

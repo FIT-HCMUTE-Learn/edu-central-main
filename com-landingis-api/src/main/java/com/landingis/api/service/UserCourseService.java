@@ -1,9 +1,9 @@
 package com.landingis.api.service;
 
 import com.landingis.api.dto.intermediary.UserCourseDto;
-import com.landingis.api.entity.criteria.UserCourseCriteria;
+import com.landingis.api.model.criteria.UserCourseCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.entity.UserCourse;
+import com.landingis.api.model.UserCourse;
 import com.landingis.api.form.usercourse.UserCourseRegisterForm;
 import com.landingis.api.form.usercourse.UserCourseUnregisterForm;
 import com.landingis.api.form.usercourse.UserCourseUpdateForm;

@@ -1,6 +1,6 @@
 package com.landingis.api.controller;
 
-import com.landingis.api.entity.criteria.CourseCriteria;
+import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.course.CourseDto;
@@ -84,6 +84,15 @@ public class CourseController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiMessageDto<Void>> deleteCourse(@PathVariable Long id) {
         courseService.delete(id);
+        ApiMessageDto<Void> response = ApiMessageUtils
+                .success(null, "Course deleted successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete-with-data-source/{id}")
+    public ResponseEntity<ApiMessageDto<Void>> deleteCourseWithDataSource(@PathVariable Long id) {
+        courseService.deleteWithDataSource(id);
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "Course deleted successfully");
 

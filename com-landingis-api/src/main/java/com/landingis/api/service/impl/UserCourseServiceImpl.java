@@ -1,11 +1,9 @@
 package com.landingis.api.service.impl;
 
 import com.landingis.api.dto.intermediary.UserCourseDto;
-import com.landingis.api.entity.criteria.UserCourseCriteria;
+import com.landingis.api.model.criteria.UserCourseCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.entity.Course;
-import com.landingis.api.entity.UserCourse;
-import com.landingis.api.enumeration.CompletionStatus;
+import com.landingis.api.model.UserCourse;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
@@ -22,8 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class UserCourseServiceImpl implements UserCourseService {
@@ -87,24 +85,8 @@ public class UserCourseServiceImpl implements UserCourseService {
     }
 
     @Override
+    @Transactional
     public void checkAndUpdateCourseCompletion() {
-        List<Course> courses = courseRepository.findAll();
-
-        for (Course course : courses) {
-            List<UserCourse> userCourses = userCourseRepository.findByCourseId(course.getId());
-
-            if (userCourses.isEmpty()) {
-                continue;
-            }
-
-            boolean allUsersCompleted = userCourses.stream()
-                    .allMatch(userCourse -> userCourse.getCompletionStatus() == CompletionStatus.COMPLETED);
-
-            if (allUsersCompleted && course.getStatus() != CompletionStatus.COMPLETED) {
-                course.setStatus(CompletionStatus.COMPLETED);
-                courseRepository.save(course);
-                System.out.println("Course " + course.getId() + " (" + course.getName() + ") completed.");
-            }
-        }
+        courseRepository.updateCompletedCourses();
     }
 }

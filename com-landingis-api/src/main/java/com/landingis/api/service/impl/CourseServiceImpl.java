@@ -1,11 +1,11 @@
 package com.landingis.api.service.impl;
 
 import com.landingis.api.dto.course.CourseDto;
-import com.landingis.api.entity.criteria.CourseCriteria;
+import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
-import com.landingis.api.entity.Course;
+import com.landingis.api.model.Course;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.CourseMapper;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseMapper courseMapper;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<CourseDto> getAll() {
@@ -84,8 +88,13 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void delete(Long id) {
         Course course = findCourseById(id);
-
         courseRepository.delete(course);
+    }
+
+    @Override
+    public void deleteWithDataSource(Long id) {
+        String sql = "DELETE FROM user WHERE id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, id);
     }
 
     @Override

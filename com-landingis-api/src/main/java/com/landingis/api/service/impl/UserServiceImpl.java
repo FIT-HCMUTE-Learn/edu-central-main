@@ -1,11 +1,11 @@
 package com.landingis.api.service.impl;
 
 import com.landingis.api.dto.user.UserDto;
-import com.landingis.api.entity.criteria.UserCriteria;
+import com.landingis.api.model.criteria.UserCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
-import com.landingis.api.entity.User;
+import com.landingis.api.model.User;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.UserMapper;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -90,8 +94,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         User user = findUserById(id);
-
         userRepository.delete(user);
+    }
+
+    @Override
+    public void deleteWithDataSource(Long id) {
+        String sql = "DELETE FROM course WHERE id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, id);
     }
 
     @Override

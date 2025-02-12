@@ -1,10 +1,10 @@
 package com.landingis.api.mapper;
 
 import com.landingis.api.dto.intermediary.UserCourseDto;
-import com.landingis.api.entity.Course;
-import com.landingis.api.entity.User;
-import com.landingis.api.entity.UserCourse;
-import com.landingis.api.enumeration.CompletionStatus;
+import com.landingis.api.model.Course;
+import com.landingis.api.model.User;
+import com.landingis.api.model.UserCourse;
+import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.form.usercourse.UserCourseRegisterForm;
 import com.landingis.api.form.usercourse.UserCourseUpdateForm;
@@ -40,7 +40,7 @@ public abstract class UserCourseMapper {
             @Mapping(source = "courseId", target = "course", qualifiedByName = "mapCourseIdToCourse"),
             @Mapping(source = "dateRegister", target = "dateRegister", qualifiedByName = "parseDate"),
             @Mapping(source = "registerStatus", target = "registerStatus", qualifiedByName = "mapStringToRegisterStatus"),
-            @Mapping(source = "completionStatus", target = "completionStatus", qualifiedByName = "mapStringToCompletionStatus")
+            @Mapping(source = "learningState", target = "learningState", qualifiedByName = "mapStringToLearningState")
     })
     public abstract void updateEntity(@MappingTarget UserCourse userCourse, UserCourseUpdateForm request);
 
@@ -50,7 +50,7 @@ public abstract class UserCourseMapper {
             @Mapping(source = "course", target = "course", qualifiedByName = "mapCourseToDto"),
             @Mapping(source = "dateRegister", target = "dateRegister", qualifiedByName = "formatDate"),
             @Mapping(source = "registerStatus", target = "registerStatus"),
-            @Mapping(source = "completionStatus", target = "completionStatus")
+            @Mapping(source = "learningState", target = "learningState")
     })
     @Named("mapUserCourseToDto")
     public abstract UserCourseDto toDto(UserCourse userCourse);
@@ -83,9 +83,9 @@ public abstract class UserCourseMapper {
         return MappingUtils.mapStringToEnum(value, RegisterStatus.class);
     }
 
-    @Named("mapStringToCompletionStatus")
-    public static CompletionStatus mapStringToCompletionStatus(String value) {
-        return MappingUtils.mapStringToEnum(value, CompletionStatus.class);
+    @Named("mapStringToLearningState")
+    public static LearningState mapStringToLearningState(String value) {
+        return MappingUtils.mapStringToEnum(value, LearningState.class);
     }
 
 }

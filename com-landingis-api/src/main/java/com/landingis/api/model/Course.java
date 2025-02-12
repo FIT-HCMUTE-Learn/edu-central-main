@@ -1,7 +1,7 @@
-package com.landingis.api.entity;
+package com.landingis.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.landingis.api.enumeration.CompletionStatus;
+import com.landingis.api.enumeration.CourseState;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,7 +29,7 @@ public class Course {
     private String code;
 
     @Enumerated(EnumType.STRING)
-    private CompletionStatus status;
+    private CourseState status;
 
     @JsonIgnore
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)

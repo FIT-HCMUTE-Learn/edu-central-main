@@ -1,6 +1,6 @@
 package com.landingis.api.form.usercourse;
 
-import com.landingis.api.enumeration.CompletionStatus;
+import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.validation.ValidEnum;
 import io.swagger.annotations.ApiModelProperty;
@@ -38,8 +38,8 @@ public class UserCourseUpdateForm {
     @ValidEnum(enumClass = RegisterStatus.class, message = "Invalid register status")
     private String registerStatus;
 
-    @ApiModelProperty(value = "Completion status", example = "COMPLETED", required = true)
-    @NotNull(message = "Completion status cannot be null")
-    @ValidEnum(enumClass = CompletionStatus.class, message = "Invalid completion status")
-    private String completionStatus;
+    @ApiModelProperty(value = "Learning state", example = "COMPLETED", required = true)
+    @NotNull(message = "Learning state cannot be null")
+    @ValidEnum(enumClass = LearningState.class, message = "Invalid completion status")
+    private String learningState;
 }

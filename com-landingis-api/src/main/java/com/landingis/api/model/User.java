@@ -1,6 +1,7 @@
-package com.landingis.api.entity;
+package com.landingis.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.landingis.api.enumeration.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,6 +35,18 @@ public class User {
 
     @Column(nullable = true)
     private Integer gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_permissions",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
+    private List<Permission> permissions = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
