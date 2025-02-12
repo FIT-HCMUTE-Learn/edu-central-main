@@ -1,11 +1,10 @@
 package com.landingis.api.filter;
 
-import com.landingis.api.util.JwtUtil;
+import com.landingis.api.util.JwtUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,9 +19,9 @@ import java.util.stream.Collectors;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtUtil jwtUtil;
+    private final JwtUtils jwtUtil;
 
-    public JwtFilter(JwtUtil jwtUtil) {
+    public JwtFilter(JwtUtils jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
@@ -36,11 +35,12 @@ public class JwtFilter extends OncePerRequestFilter {
                 String username = jwtUtil.extractUsername(token);
                 List<String> pcodes = jwtUtil.extractPcodes(token);
 
+                List<SimpleGrantedAuthority> authorities = pcodes.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                new User(username, "", pcodes.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())),
-                                null,
-                                pcodes.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+                        new UsernamePasswordAuthenticationToken(username, null, authorities);
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (ExpiredJwtException e) {

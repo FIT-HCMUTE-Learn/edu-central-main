@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Component
-public class JwtUtil {
+public class JwtUtils {
 
     @Value("${jwt.secret}")
     private String secret;

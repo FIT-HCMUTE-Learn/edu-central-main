@@ -1,25 +1,25 @@
--- Insert sample users
+-- Insert sample users with password - abc
 INSERT INTO `user` (id, username, password, full_name, birth_date, role) VALUES
-(1, 'user1', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'John Doe', SYSDATE(), 'USER'),
-(2, 'user2', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Jane Smith', SYSDATE(), 'USER'),
-(3, 'user3', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Alice Brown', SYSDATE(), 'USER'),
-(4, 'user4', 'abc', 'Bob Johnson', SYSDATE(), 'USER'),
-(5, 'user5', 'abc', 'Charlie White', SYSDATE(), 'USER'),
-(6, 'user6', 'abc', 'David Black', SYSDATE(), 'USER'),
-(7, 'user7', 'abc', 'Emma Watson', SYSDATE(), 'USER'),
-(8, 'user8', 'abc', 'Frank Green', SYSDATE(), 'USER'),
-(9, 'user9', 'abc', 'Grace Hall', SYSDATE(), 'USER'),
-(10, 'user10', 'abc', 'Hannah Lewis', SYSDATE(), 'USER'),
-(11, 'user11', 'abc', 'Ivy Martin', SYSDATE(), 'USER'),
-(12, 'user12', 'abc', 'Jack Lee', SYSDATE(), 'USER'),
-(13, 'user13', 'abc', 'Kelly Adams', SYSDATE(), 'USER'),
-(14, 'user14', 'abc', 'Liam Scott', SYSDATE(), 'USER'),
-(15, 'user15', 'abc', 'Mia Harris', SYSDATE(), 'USER'),
-(16, 'user16', 'abc', 'Noah King', SYSDATE(), 'USER'),
-(17, 'user17', 'abc', 'Olivia Moore', SYSDATE(), 'USER'),
-(18, 'user18', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Paul Wilson', SYSDATE(), 'ADMIN'),
-(19, 'user19', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Quinn Young', SYSDATE(), 'ADMIN'),
-(20, 'user20', '$2a$10$Xy9N5pEiY1qU/NayWqf9COvF91Khp8Xg2f9gMHdtIbT5c1T3JuJmK', 'Rachel Evans', SYSDATE(), 'ADMIN');
+(1, 'user1', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'John Doe', SYSDATE(), 'USER'),
+(2, 'user2', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Jane Smith', SYSDATE(), 'USER'),
+(3, 'user3', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Alice Brown', SYSDATE(), 'USER'),
+(4, 'user4', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Bob Johnson', SYSDATE(), 'USER'),
+(5, 'user5', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Charlie White', SYSDATE(), 'USER'),
+(6, 'user6', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'David Black', SYSDATE(), 'USER'),
+(7, 'user7', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Emma Watson', SYSDATE(), 'USER'),
+(8, 'user8', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Frank Green', SYSDATE(), 'USER'),
+(9, 'user9', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Grace Hall', SYSDATE(), 'USER'),
+(10, 'user10', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Hannah Lewis', SYSDATE(), 'USER'),
+(11, 'user11', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Ivy Martin', SYSDATE(), 'USER'),
+(12, 'user12', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Jack Lee', SYSDATE(), 'USER'),
+(13, 'user13', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Kelly Adams', SYSDATE(), 'USER'),
+(14, 'user14', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Liam Scott', SYSDATE(), 'USER'),
+(15, 'user15', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Mia Harris', SYSDATE(), 'USER'),
+(16, 'user16', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Noah King', SYSDATE(), 'USER'),
+(17, 'user17', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Olivia Moore', SYSDATE(), 'USER'),
+(18, 'user18', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Paul Wilson', SYSDATE(), 'ADMIN'),
+(19, 'user19', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Quinn Young', SYSDATE(), 'ADMIN'),
+(20, 'user20', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Rachel Evans', SYSDATE(), 'ADMIN');
 
 -- Insert sample courses
 INSERT INTO course(id, code, name, status) VALUES
@@ -59,7 +59,7 @@ INSERT INTO user_course(id, user_id, course_id, date_register, register_status, 
 
 -- Insert sample permissions
 INSERT INTO permissions (pcode) VALUES
-('C_GET'), ('C_CRE'), ('C_UPD'), ('C_DEL');
+('C_GET'), ('C_POST'), ('C_PUT'), ('C_DELETE');
 
 -- Assign permissions to 'user1'
 INSERT INTO user_permissions (user_id, permission_id) VALUES

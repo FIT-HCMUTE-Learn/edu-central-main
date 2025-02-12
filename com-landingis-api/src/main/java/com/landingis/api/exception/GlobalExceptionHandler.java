@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -92,6 +93,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    // Authorization Errors
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiMessageDto<String>> handleAccessDeniedException(AccessDeniedException ex) {
+        ApiMessageDto<String> response = new ApiMessageDto<>(
+                false,
+                ErrorCode.ACCESS_DENIED.getCode(),
+                null,
+                ex.getMessage()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN); // 403 Forbidden
+    }
+
     // Other Errors
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiMessageDto<Void>> handleGlobalException(Exception ex) {
@@ -99,7 +113,7 @@ public class GlobalExceptionHandler {
                 false,
                 ErrorCode.UNKNOWN_ERROR.getCode(),
                 null,
-                ErrorCode.UNKNOWN_ERROR.getMessage()
+                ex.getMessage()
         );
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

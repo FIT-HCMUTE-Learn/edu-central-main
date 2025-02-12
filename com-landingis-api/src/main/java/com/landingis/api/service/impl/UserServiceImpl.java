@@ -1,6 +1,7 @@
 package com.landingis.api.service.impl;
 
 import com.landingis.api.dto.user.UserDto;
+import com.landingis.api.enumeration.Role;
 import com.landingis.api.model.criteria.UserCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
@@ -70,6 +71,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(request.getUserPassword()));
+        user.setRole(Role.USER);
         User savedUser = userRepository.save(user);
 
         return userMapper.toDto(savedUser);
