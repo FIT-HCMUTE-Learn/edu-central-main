@@ -10,6 +10,7 @@ import com.landingis.api.service.UserService;
 import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
@@ -24,6 +25,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<PaginationDto<UserDto>>> getUsersPagination(
             UserCriteria userCriteria, Pageable pageable
     ) {
@@ -36,6 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/list-by-course/{courseId}")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<PaginationDto<UserDto>>> getUsersByCourse(
             @PathVariable Long courseId,
             UserCriteria userCriteria,
@@ -50,6 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/list-all")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<List<UserDto>>> getAllUsers() {
         ApiMessageDto<List<UserDto>> response = ApiMessageUtils
                 .success(userService.getAll(),"Successfully retrieved all users");
@@ -58,6 +62,7 @@ public class UserController {
     }
 
     @GetMapping("/get/{id}")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<UserDto>> getUserById(@PathVariable Long id) {
         ApiMessageDto<UserDto> response = ApiMessageUtils
                 .success(userService.getOne(id), "Successfully retrieved user by id");
@@ -66,6 +71,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('C_POST')")
     public ResponseEntity<ApiMessageDto<UserDto>> createUser(@Valid @RequestBody UserCreateForm request) {
         ApiMessageDto<UserDto> response = ApiMessageUtils
                 .success(userService.create(request), "User created successfully");
@@ -74,6 +80,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('C_PUT')")
     public ResponseEntity<ApiMessageDto<UserDto>> updateUser(@Valid @RequestBody UserUpdateForm request) {
         ApiMessageDto<UserDto> response = ApiMessageUtils
                 .success(userService.update(request), "User updated successfully");
@@ -82,6 +89,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('C_DELETE')")
     public ResponseEntity<ApiMessageDto<Void>> deleteUser(@PathVariable Long id) {
         userService.delete(id);
         ApiMessageDto<Void> response = ApiMessageUtils
@@ -91,6 +99,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete-with-data-source/{id}")
+    @PreAuthorize("hasAuthority('C_DELETE')")
     public ResponseEntity<ApiMessageDto<Void>> deleteCourseWithDataSource(@PathVariable Long id) {
         userService.deleteWithDataSource(id);
         ApiMessageDto<Void> response = ApiMessageUtils

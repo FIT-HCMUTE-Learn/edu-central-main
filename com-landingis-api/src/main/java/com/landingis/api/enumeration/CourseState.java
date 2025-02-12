@@ -4,5 +4,5 @@ public enum CourseState {
     RECRUITING,
     IN_PROGRESS,
     COMPLETED,
-    CANCELED
+    CANCELED;
 }

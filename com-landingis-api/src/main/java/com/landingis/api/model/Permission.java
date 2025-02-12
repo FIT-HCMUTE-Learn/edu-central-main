@@ -3,6 +3,8 @@ package com.landingis.api.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "permissions")
@@ -19,4 +21,7 @@ public class Permission {
 
     @Column(unique = true, nullable = false)
     private String pcode;
+
+    @ManyToMany(mappedBy = "permissions")
+    private List<User> users = new ArrayList<>();
 }

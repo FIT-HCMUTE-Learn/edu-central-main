@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
@@ -18,9 +17,6 @@ public class LoginForm {
     private String username;
 
     @ApiModelProperty(value = "Password", example = "Secure@123", required = true)
-    @Pattern(
-            regexp = "^(?=.*[A-Z])(?=.*\\W).{6,}$",
-            message = "Password must have at least 6 characters, 1 uppercase letter, and 1 special character"
-    )
+    @NotEmpty(message = "Password cannot be empty")
     private String password;
 }
