@@ -1,16 +1,19 @@
 package com.landingis.api.filter;
 
+import com.landingis.api.security.CustomUserDetails;
 import com.landingis.api.util.JwtUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -28,15 +31,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (token != null) {
             try {
+                Long userId = jwtUtil.extractUserId(token);
                 String username = jwtUtil.extractUsername(token);
+                String group = jwtUtil.extractGroup(token);
+                Integer kind = jwtUtil.extractKind(token);
                 List<String> pcodes = jwtUtil.extractPcodes(token);
 
-                List<SimpleGrantedAuthority> authorities = pcodes.stream()
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+                CustomUserDetails userDetails = new CustomUserDetails(userId, username, "", group, kind, pcodes);
 
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, authorities);
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (ExpiredJwtException e) {

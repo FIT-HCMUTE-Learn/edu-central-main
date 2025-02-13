@@ -38,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationDto authenticateUser(LoginForm loginForm) {
-        // Check username exists
+        // Check if the username exists
         Optional<User> userOptional = userRepository.findByUsername(loginForm.getUsername());
         if (userOptional.isEmpty()) {
             throw new AuthenticationException("Invalid username");
@@ -46,12 +46,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = userOptional.get();
 
-        // Check password matches
+        // Check if the password matches
         if (!passwordEncoder.matches(loginForm.getPassword(), user.getPassword())) {
             throw new AuthenticationException("Invalid password");
         }
 
-        // Use AuthenticationManager to verify username and password
+        // Authenticate user using AuthenticationManager
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginForm.getUsername(),
@@ -63,13 +63,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
+        // Extract group name & kind
+        String groupName = user.getGroup().getName();
+        Integer groupKind = user.getGroup().getKind();
+
         // Convert GrantedAuthority to List<String>
         List<String> pcodes = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority) // Extract permission code
                 .collect(Collectors.toList());
 
-        // Generate JWT token
-        String token = jwtUtil.generateToken(userDetails.getUsername(), pcodes);
+        // Generate JWT token with group info
+        String token = jwtUtil.generateToken(userDetails.getUserId(), userDetails.getUsername(), groupName, groupKind, pcodes);
 
         return new AuthenticationDto(token, userDetails.getUsername(), pcodes);
     }
