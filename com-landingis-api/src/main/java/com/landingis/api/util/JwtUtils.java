@@ -19,29 +19,39 @@ public class JwtUtils {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
-    // Generate token with username & pcodes
-    public String generateToken(String username, List<String> pcodes) {
+    public String generateToken(Long userId, String username, String group, Integer kind, List<String> pcodes) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("pcodes", pcodes)  // Store permissions in JWT
+                .claim("userId", userId)
+                .claim("group", group)
+                .claim("kind", kind)
+                .claim("pcodes", pcodes)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
-    // Extract username from token
+    public Long extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("userId", Long.class));
+    }
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Extract permissions (pcodes) from token
-    @SuppressWarnings("unchecked")
+    public String extractGroup(String token) {
+        return extractClaim(token, claims -> claims.get("group", String.class));
+    }
+
+    public Integer extractKind(String token) {
+        return extractClaim(token, claims -> claims.get("kind", Integer.class));
+    }
+
     public List<String> extractPcodes(String token) {
         return extractClaim(token, claims -> claims.get("pcodes", List.class));
     }
 
-    // Extract any claim
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         Claims claims = Jwts.parser()
                 .setSigningKey(secret)

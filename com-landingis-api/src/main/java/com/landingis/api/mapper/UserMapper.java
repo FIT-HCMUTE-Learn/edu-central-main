@@ -15,7 +15,6 @@ public interface UserMapper {
             @Mapping(source = "handle", target = "username"),
             @Mapping(source = "userPassword", target = "password"),
             @Mapping(source = "userFullName", target = "fullName"),
-            @Mapping(source = "userBirthday", target = "birthDate"),
             @Mapping(source = "userGender", target = "gender")
     })
     User toEntity(UserCreateForm form);
@@ -24,7 +23,6 @@ public interface UserMapper {
             @Mapping(source = "handle", target = "username"),
             @Mapping(source = "userPassword", target = "password"),
             @Mapping(source = "userFullName", target = "fullName"),
-            @Mapping(source = "userBirthday", target = "birthDate"),
             @Mapping(source = "userGender", target = "gender")
     })
     void updateEntity(@MappingTarget User user, UserUpdateForm form);
@@ -33,7 +31,6 @@ public interface UserMapper {
             @Mapping(source = "id", target = "userId"),
             @Mapping(source = "username", target = "handle"),
             @Mapping(source = "fullName", target = "userFullName"),
-            @Mapping(source = "birthDate", target = "userBirthday"),
             @Mapping(source = "gender", target = "userGender")
     })
     @Named("mapUserToDto")

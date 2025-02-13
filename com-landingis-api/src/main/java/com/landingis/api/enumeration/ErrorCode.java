@@ -13,7 +13,7 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED("METHOD_NOT_ALLOWED", "Method not allowed"),
     AUTHENTICATION_ERROR("AUTHENTICATION_ERROR", "Authentication error"),
     ACCESS_DENIED("ACCESS_DENIED", "Access denied");
-
+    
     private final String code;
     private final String message;
 }
