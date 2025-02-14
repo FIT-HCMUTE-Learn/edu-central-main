@@ -35,6 +35,9 @@ public class UserCourse {
     @Column(nullable = false)
     private RegisterStatus registerStatus;
 
+    @Column(nullable = false)
+    private Double score;
+
     @Enumerated(EnumType.STRING)
     private LearningState learningState;
 }

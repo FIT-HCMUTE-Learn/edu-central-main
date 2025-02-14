@@ -9,6 +9,7 @@ import com.landingis.api.model.Course;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CourseService {
     List<CourseDto> getAll();
@@ -19,4 +20,5 @@ public interface CourseService {
     void delete(Long id);
     void deleteWithDataSource(Long id);
     Course findCourseById(Long id);
+    Map<String, Object> getAcademicReport();
 }

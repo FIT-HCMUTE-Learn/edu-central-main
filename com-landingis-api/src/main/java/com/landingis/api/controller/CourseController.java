@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/course")
@@ -95,6 +96,14 @@ public class CourseController {
         courseService.deleteWithDataSource(id);
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "Course deleted successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/academic-report")
+    public ResponseEntity<ApiMessageDto<Map<String, Object>>> getAcademicReport() {
+        ApiMessageDto<Map<String, Object>> response = ApiMessageUtils
+                .success(courseService.getAcademicReport(), "Successfully retrieved academic report");
 
         return ResponseEntity.ok(response);
     }
