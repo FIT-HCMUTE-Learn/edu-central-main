@@ -19,6 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -101,5 +102,10 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Course with id " + id + " not found")
         );
+    }
+
+    @Override
+    public Map<String, Object> getAcademicReport() {
+        return courseRepository.getAcademicReport();
     }
 }
