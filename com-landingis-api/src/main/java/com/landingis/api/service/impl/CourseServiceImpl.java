@@ -53,7 +53,6 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDto getOne(Long id) {
         Course course = findCourseById(id);
-
         return courseMapper.toDto(course);
     }
 

@@ -1,14 +1,13 @@
 package com.landingis.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.landingis.api.enumeration.Role;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "`user`")
+@Table(name = "users")
 @Getter
 @Setter
 @Builder
@@ -30,23 +29,15 @@ public class User {
     @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
-    private Date birthDate;
+    @Column(nullable = true)
+    private String avatar;
 
     @Column(nullable = true)
     private Integer gender;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_permissions",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id")
-    )
-    private List<Permission> permissions = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -13,6 +13,5 @@ public class UserDto {
     private Long userId;
     private String handle;
     private String userFullName;
-    private Date userBirthday;
     private Integer userGender;
 }
