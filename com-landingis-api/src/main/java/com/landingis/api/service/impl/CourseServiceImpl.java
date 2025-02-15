@@ -1,5 +1,6 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.dto.course.CourseAcademicReportDto;
 import com.landingis.api.dto.course.CourseDto;
 import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
@@ -105,7 +106,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Map<String, Object> getAcademicReport() {
+    public CourseAcademicReportDto getAcademicReport() {
         return courseRepository.getAcademicReport();
     }
 }

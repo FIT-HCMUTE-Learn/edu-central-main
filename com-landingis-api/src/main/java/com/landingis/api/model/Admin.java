@@ -14,13 +14,16 @@ import javax.persistence.*;
 public class Admin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private Integer level;
 
+    @Column(nullable = false)
+    private Boolean isSuperAdmin;
+
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @MapsId
+    @JoinColumn(name = "id")
     private User user;
 }

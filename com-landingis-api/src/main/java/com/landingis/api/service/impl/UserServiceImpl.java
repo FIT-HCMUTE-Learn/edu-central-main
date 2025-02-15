@@ -1,6 +1,7 @@
 package com.landingis.api.service.impl;
 
 import com.landingis.api.dto.user.UserDto;
+import com.landingis.api.model.Group;
 import com.landingis.api.model.criteria.UserCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
@@ -9,6 +10,7 @@ import com.landingis.api.model.User;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.UserMapper;
+import com.landingis.api.repository.GroupRepository;
 import com.landingis.api.repository.UserRepository;
 import com.landingis.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Autowired
     private UserMapper userMapper;
@@ -69,6 +74,9 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(request.getUserPassword()));
+        Group group = groupRepository.findGroupByName("GROUP_USER");
+        user.setGroup(group);
+
         User savedUser = userRepository.save(user);
 
         return userMapper.toDto(savedUser);
@@ -79,7 +87,7 @@ public class UserServiceImpl implements UserService {
         Long id = request.getUserId();
         User user = findUserById(id);
 
-        if (!Objects.equals(request.getHandle(), user.getUsername()) && userRepository.existsByUsername(request.getHandle())){
+        if (!Objects.equals(request.getUserHandle(), user.getUsername()) && userRepository.existsByUsername(request.getUserHandle())){
             throw new BusinessException("User with username " + user.getUsername() + " already exists");
         }
 

@@ -1,21 +1,21 @@
-package com.landingis.api.form.user;
+package com.landingis.api.form.admin;
 
 import com.landingis.api.validation.GenderConstraint;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.validation.constraints.*;
-import java.util.Date;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateForm {
-
-    @ApiModelProperty(value = "User id", example = "1", required = true)
-    @NotNull(message = "User id cannot be null")
-    private Long userId;
+public class AdminCreateForm {
 
     @ApiModelProperty(value = "User handle (username)", example = "johndoe", required = true)
     @NotEmpty(message = "User handle cannot be empty")
@@ -35,4 +35,12 @@ public class UserUpdateForm {
     @ApiModelProperty(value = "Gender (1: Male, 2: Female, 3: Other)", example = "1", required = false)
     @GenderConstraint(allowNull = true)
     private Integer userGender;
+
+    @ApiModelProperty(value = "Level (1: High, 2: Medium, 3: Low)", example = "1", required = true)
+    @NotNull(message = "Admin level cannot be null")
+    private Integer adminLevel;
+
+    @ApiModelProperty(value = "Are you super admin?", example = "true", required = true)
+    @NotNull(message = "Value cannot be null")
+    private Boolean isSuperAdmin;
 }

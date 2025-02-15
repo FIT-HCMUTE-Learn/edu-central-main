@@ -3,7 +3,9 @@ package com.landingis.api.service.impl;
 import com.landingis.api.dto.AuthenticationDto;
 import com.landingis.api.exception.AuthenticationException;
 import com.landingis.api.form.LoginForm;
+import com.landingis.api.model.Admin;
 import com.landingis.api.model.User;
+import com.landingis.api.repository.AdminRepository;
 import com.landingis.api.security.CustomUserDetails;
 import com.landingis.api.service.AuthenticationService;
 import com.landingis.api.repository.UserRepository;
@@ -34,6 +36,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private UserRepository userRepository;
 
     @Autowired
+    private AdminRepository adminRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -51,6 +56,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new AuthenticationException("Invalid password");
         }
 
+        // Check Super admin
+        boolean isSuperAdmin = false;
+        if ("GROUP_ADMIN".equals(user.getGroup().getName())) {
+            Optional<Admin> adminOptional = adminRepository.findByUserId(user.getId());
+            isSuperAdmin = adminOptional.map(Admin::getIsSuperAdmin).orElse(false);
+        }
+
+        // Create CustomUserDetails from User
+        CustomUserDetails userDetails = new CustomUserDetails(user, isSuperAdmin);
+
         // Authenticate user using AuthenticationManager
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -59,21 +74,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
 
-        // Set authentication in SecurityContext
+        // Save authentication to SecurityContext
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        // Extract group name & kind
-        String groupName = user.getGroup().getName();
-        Integer groupKind = user.getGroup().getKind();
-
-        // Convert GrantedAuthority to List<String>
+        // Convert GrantedAuthority to String list
         List<String> pcodes = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority) // Extract permission code
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        // Generate JWT token with group info
-        String token = jwtUtil.generateToken(userDetails.getUserId(), userDetails.getUsername(), groupName, groupKind, pcodes);
+        // Generate JWT Token
+        String token = jwtUtil.generateToken(userDetails, pcodes);
 
         return new AuthenticationDto(token, userDetails.getUsername(), pcodes);
     }

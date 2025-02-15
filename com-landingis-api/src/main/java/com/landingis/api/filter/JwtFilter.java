@@ -1,8 +1,10 @@
 package com.landingis.api.filter;
 
 import com.landingis.api.security.CustomUserDetails;
+import com.landingis.api.service.UserService;
 import com.landingis.api.util.JwtUtils;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -18,11 +20,11 @@ import java.util.List;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtUtils jwtUtil;
+    @Autowired
+    private JwtUtils jwtUtil;
 
-    public JwtFilter(JwtUtils jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
+    @Autowired
+    private UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -35,9 +37,10 @@ public class JwtFilter extends OncePerRequestFilter {
                 String username = jwtUtil.extractUsername(token);
                 String group = jwtUtil.extractGroup(token);
                 Integer kind = jwtUtil.extractKind(token);
+                Boolean isSuperAdmin = jwtUtil.extractIsSuperAdmin(token);
                 List<String> pcodes = jwtUtil.extractPcodes(token);
 
-                CustomUserDetails userDetails = new CustomUserDetails(userId, username, "", group, kind, pcodes);
+                CustomUserDetails userDetails = new CustomUserDetails(userId, username, "", group, kind, isSuperAdmin, pcodes);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

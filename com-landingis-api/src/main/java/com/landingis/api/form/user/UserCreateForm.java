@@ -18,8 +18,8 @@ import java.util.Date;
 public class UserCreateForm {
 
     @ApiModelProperty(value = "User handle (username)", example = "johndoe", required = true)
-    @NotEmpty(message = "Handle cannot be empty")
-    private String handle;
+    @NotEmpty(message = "User handle cannot be empty")
+    private String userHandle;
 
     @ApiModelProperty(value = "User password", example = "Secure@123", required = true)
     @Pattern(
@@ -28,13 +28,9 @@ public class UserCreateForm {
     )
     private String userPassword;
 
-    @ApiModelProperty(value = "Full name", example = "John Doe", required = true)
-    @NotEmpty(message = "Full name cannot be empty")
+    @ApiModelProperty(value = "User full name", example = "John Doe", required = true)
+    @NotEmpty(message = "User full name cannot be empty")
     private String userFullName;
-
-    @ApiModelProperty(value = "User birth date (must be in the past)", example = "2000-01-15", required = true)
-    @Past(message = "Birth date must be in the past")
-    private Date userBirthday;
 
     @ApiModelProperty(value = "Gender (1: Male, 2: Female, 3: Other)", example = "1", required = false)
     @GenderConstraint(allowNull = true)

@@ -1,5 +1,6 @@
 package com.landingis.api.util;
 
+import com.landingis.api.security.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,12 +20,13 @@ public class JwtUtils {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
-    public String generateToken(Long userId, String username, String group, Integer kind, List<String> pcodes) {
+    public String generateToken(CustomUserDetails userDetails, List<String> pcodes) {
         return Jwts.builder()
-                .setSubject(username)
-                .claim("userId", userId)
-                .claim("group", group)
-                .claim("kind", kind)
+                .setSubject(userDetails.getUsername())
+                .claim("userId", userDetails.getUserId())
+                .claim("group", userDetails.getGroup())
+                .claim("kind", userDetails.getKind())
+                .claim("isSuperAdmin", userDetails.getIsSuperAdmin())
                 .claim("pcodes", pcodes)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
@@ -46,6 +48,10 @@ public class JwtUtils {
 
     public Integer extractKind(String token) {
         return extractClaim(token, claims -> claims.get("kind", Integer.class));
+    }
+
+    public Boolean extractIsSuperAdmin(String token) {
+        return extractClaim(token, claims -> claims.get("isSuperAdmin", Boolean.class));
     }
 
     public List<String> extractPcodes(String token) {
