@@ -41,4 +41,3 @@ public interface StudentMapper {
     @IterableMapping(elementTargetType = StudentDto.class)
     List<StudentDto> toDtoList(List<Student> students);
 }
-

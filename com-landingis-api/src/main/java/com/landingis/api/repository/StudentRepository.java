@@ -15,4 +15,3 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
     @Query("SELECT s FROM Student s WHERE s.user.username = :username")
     Optional<Student> findByUsername(@Param("username") String username);
 }
-
