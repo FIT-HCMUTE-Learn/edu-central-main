@@ -1,5 +1,6 @@
 package com.landingis.api.service;
 
+import com.landingis.api.dto.course.CourseAcademicReportDto;
 import com.landingis.api.dto.course.CourseDto;
 import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
@@ -20,5 +21,5 @@ public interface CourseService {
     void delete(Long id);
     void deleteWithDataSource(Long id);
     Course findCourseById(Long id);
-    Map<String, Object> getAcademicReport();
+    CourseAcademicReportDto getAcademicReport();
 }

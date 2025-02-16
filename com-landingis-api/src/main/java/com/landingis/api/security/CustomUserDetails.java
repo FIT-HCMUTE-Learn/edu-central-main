@@ -18,28 +18,29 @@ public class CustomUserDetails implements UserDetails {
     private final String password;
     private final String group;
     private final Integer kind;
+    private final Boolean isSuperAdmin;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(User user, Boolean isSuperAdmin) {
         this.userId = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
-
-        Group userGroup = user.getGroup();
-        this.group = userGroup.getName();
-        this.kind = userGroup.getKind();
-
-        this.authorities = userGroup.getPermissions().stream()
+        this.group = user.getGroup().getName();
+        this.kind = user.getGroup().getKind();
+        this.isSuperAdmin = isSuperAdmin;
+        this.authorities = user.getGroup().getPermissions().stream()
                 .map(permission -> (GrantedAuthority) permission::getPcode)
                 .collect(Collectors.toList());
     }
 
-    public CustomUserDetails(Long userId, String username, String password, String group, Integer kind, List<String> pcodes) {
+    public CustomUserDetails(Long userId, String username, String password, String group, Integer kind,
+                             Boolean isSuperAdmin, List<String> pcodes) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.group = group;
         this.kind = kind;
+        this.isSuperAdmin = isSuperAdmin;
         this.authorities = pcodes.stream()
                 .map(permission -> (GrantedAuthority) () -> permission)
                 .collect(Collectors.toList());

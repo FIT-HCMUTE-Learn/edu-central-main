@@ -1,5 +1,6 @@
 package com.landingis.api.controller;
 
+import com.landingis.api.dto.course.CourseAcademicReportDto;
 import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
@@ -101,8 +102,8 @@ public class CourseController {
     }
 
     @GetMapping("/academic-report")
-    public ResponseEntity<ApiMessageDto<Map<String, Object>>> getAcademicReport() {
-        ApiMessageDto<Map<String, Object>> response = ApiMessageUtils
+    public ResponseEntity<ApiMessageDto<CourseAcademicReportDto>> getAcademicReport() {
+        ApiMessageDto<CourseAcademicReportDto> response = ApiMessageUtils
                 .success(courseService.getAcademicReport(), "Successfully retrieved academic report");
 
         return ResponseEntity.ok(response);

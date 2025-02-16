@@ -1,21 +1,22 @@
-package com.landingis.api.form.user;
+package com.landingis.api.form.student;
 
 import com.landingis.api.validation.GenderConstraint;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateForm {
-
-    @ApiModelProperty(value = "User id", example = "1", required = true)
-    @NotNull(message = "User id cannot be null")
-    private Long userId;
+public class StudentCreateForm {
 
     @ApiModelProperty(value = "User handle (username)", example = "johndoe", required = true)
     @NotEmpty(message = "User handle cannot be empty")
@@ -35,4 +36,12 @@ public class UserUpdateForm {
     @ApiModelProperty(value = "Gender (1: Male, 2: Female, 3: Other)", example = "1", required = false)
     @GenderConstraint(allowNull = true)
     private Integer userGender;
+
+    @ApiModelProperty(value = "Student code", example = "STU25110799", required = true)
+    @NotEmpty(message = "Student code cannot be empty")
+    private String studentCode;
+
+    @ApiModelProperty(value = "Student birthday (must be in the past)", example = "2000-01-15", required = true)
+    @Past(message = "Student birthday must be in the past")
+    private Date studentBirthday;
 }
