@@ -5,4 +5,5 @@ import com.landingis.api.form.LoginForm;
 
 public interface AuthenticationService {
     AuthenticationDto authenticateUser(LoginForm loginForm);
+    boolean checkIsSuperAdmin();
 }

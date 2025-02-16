@@ -7,11 +7,13 @@ import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.course.CourseDto;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
+import com.landingis.api.projection.CourseAcademicReportProjection;
 import com.landingis.api.service.CourseService;
 import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,7 +27,26 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    @GetMapping("/academic-report/projection")
+    @PreAuthorize("hasAuthority('C_GET')")
+    public ResponseEntity<ApiMessageDto<CourseAcademicReportProjection>> getCourseAcademicReport() {
+        ApiMessageDto<CourseAcademicReportProjection> response = ApiMessageUtils
+                .success(courseService.getAcademicReportProjection(), "Successfully retrieved academic report with projection");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/academic-report")
+    @PreAuthorize("hasAuthority('C_GET')")
+    public ResponseEntity<ApiMessageDto<CourseAcademicReportDto>> getAcademicReport() {
+        ApiMessageDto<CourseAcademicReportDto> response = ApiMessageUtils
+                .success(courseService.getAcademicReport(), "Successfully retrieved academic report");
+
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<PaginationDto<CourseDto>>> getCoursesPagination(
             CourseCriteria courseCriteria, Pageable pageable
     ) {
@@ -38,6 +59,7 @@ public class CourseController {
     }
 
     @GetMapping("/list-by-user/{userId}")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<PaginationDto<CourseDto>>> getCoursesByUser(
             @PathVariable Long userId,
             CourseCriteria courseCriteria,
@@ -52,6 +74,7 @@ public class CourseController {
     }
 
     @GetMapping("/list-all")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<List<CourseDto>>> getAllCourses() {
         ApiMessageDto<List<CourseDto>> response = ApiMessageUtils
                 .success(courseService.getAll(), "Successfully retrieved all courses");
@@ -60,6 +83,7 @@ public class CourseController {
     }
 
     @GetMapping("/get/{id}")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<CourseDto>> getCourseById(@PathVariable Long id) {
         ApiMessageDto<CourseDto> response = ApiMessageUtils
                 .success(courseService.getOne(id), "Successfully retrieved course by id");
@@ -68,6 +92,7 @@ public class CourseController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('C_POST')")
     public ResponseEntity<ApiMessageDto<CourseDto>> createCourse(@Valid @RequestBody CourseCreateForm request) {
         ApiMessageDto<CourseDto> response = ApiMessageUtils
                 .success(courseService.create(request), "Course created successfully");
@@ -76,6 +101,7 @@ public class CourseController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('C_PUT')")
     public ResponseEntity<ApiMessageDto<CourseDto>> updateCourse(@Valid @RequestBody CourseUpdateForm request) {
         ApiMessageDto<CourseDto> response = ApiMessageUtils
                 .success(courseService.update(request), "Course updated successfully");
@@ -84,6 +110,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('C_DELETE')")
     public ResponseEntity<ApiMessageDto<Void>> deleteCourse(@PathVariable Long id) {
         courseService.delete(id);
         ApiMessageDto<Void> response = ApiMessageUtils
@@ -93,18 +120,11 @@ public class CourseController {
     }
 
     @DeleteMapping("/delete-with-data-source/{id}")
+    @PreAuthorize("hasAuthority('C_DELETE')")
     public ResponseEntity<ApiMessageDto<Void>> deleteCourseWithDataSource(@PathVariable Long id) {
         courseService.deleteWithDataSource(id);
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "Course deleted successfully");
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/academic-report")
-    public ResponseEntity<ApiMessageDto<CourseAcademicReportDto>> getAcademicReport() {
-        ApiMessageDto<CourseAcademicReportDto> response = ApiMessageUtils
-                .success(courseService.getAcademicReport(), "Successfully retrieved academic report");
 
         return ResponseEntity.ok(response);
     }

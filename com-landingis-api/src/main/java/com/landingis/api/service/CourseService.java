@@ -7,6 +7,7 @@ import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
 import com.landingis.api.model.Course;
+import com.landingis.api.projection.CourseAcademicReportProjection;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public interface CourseService {
     void deleteWithDataSource(Long id);
     Course findCourseById(Long id);
     CourseAcademicReportDto getAcademicReport();
+    CourseAcademicReportProjection getAcademicReportProjection();
 }

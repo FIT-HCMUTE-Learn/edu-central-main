@@ -13,5 +13,4 @@ public interface AdminService {
     void deleteAdmin(Long id);
     AdminDto getAdminById(Long id);
     PaginationDto<AdminDto> getAdminsPagination(AdminCriteria adminCriteria, Pageable pageable);
-    boolean checkIsSuperAdmin();
 }

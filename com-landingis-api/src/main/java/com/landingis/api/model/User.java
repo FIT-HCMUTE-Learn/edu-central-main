@@ -1,6 +1,7 @@
 package com.landingis.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.landingis.api.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,8 +14,8 @@ import java.util.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class User {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+public class User extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
