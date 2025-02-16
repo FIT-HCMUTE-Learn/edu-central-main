@@ -35,22 +35,22 @@ INSERT INTO users (id, username, password, full_name, avatar, gender, group_id) 
 (12, 'admin2',  '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Admin Two', 'admin_avatar2.png', 2, 2);
 
 -- Insert students
-INSERT INTO students (id, student_code, birth_date, user_id) VALUES
-(1, 'S1001', '2002-03-15', 1),
-(2, 'S1002', '2001-07-25', 2),
-(3, 'S1003', '2000-12-05', 3),
-(4, 'S1004', '1999-09-18', 4),
-(5, 'S1005', '2003-01-30', 5),
-(6, 'S1006', '2002-06-14', 6),
-(7, 'S1007', '2000-02-22', 7),
-(8, 'S1008', '2001-11-03', 8),
-(9, 'S1009', '1998-05-09', 9),
-(10, 'S1010', '2003-04-01', 10);
+INSERT INTO students (id, student_code, birth_date) VALUES
+(1, 'S1001', '2002-03-15'),
+(2, 'S1002', '2001-07-25'),
+(3, 'S1003', '2000-12-05'),
+(4, 'S1004', '1999-09-18'),
+(5, 'S1005', '2003-01-30'),
+(6, 'S1006', '2002-06-14'),
+(7, 'S1007', '2000-02-22'),
+(8, 'S1008', '2001-11-03'),
+(9, 'S1009', '1998-05-09'),
+(10, 'S1010', '2003-04-01');
 
 -- Insert admins
-INSERT INTO admins (id, level, user_id) VALUES
-(1, 1, 11),
-(2, 2, 12);
+INSERT INTO admins (id, is_super_admin, level) VALUES
+(11, TRUE, 1),
+(12, FALSE, 2);
 
 -- Insert sample courses
 INSERT INTO courses (id, code, name, status) VALUES
@@ -75,15 +75,12 @@ INSERT INTO courses (id, code, name, status) VALUES
 (19, 'CS119', 'DevOps and Continuous Integration', 'IN_PROGRESS'),
 (20, 'CS120', 'Quantum Computing', 'IN_PROGRESS');
 
--- Assign users to courses
-INSERT INTO user_course (id, user_id, course_id, date_register, register_status, learning_state) VALUES
-(1, 1, 2, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
-(2, 2, 3, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS'),
-(3, 3, 5, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
-(4, 4, 7, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS'),
-(5, 5, 8, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
-(6, 6, 10, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS'),
-(7, 7, 12, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
-(8, 8, 15, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS'),
-(9, 9, 18, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS'),
-(10, 10, 20, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS');
+-- Assign users to courses with scores
+INSERT INTO user_course (id, user_id, course_id, date_register, register_status, learning_state, score) VALUES
+(1, 1, 2, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS', 7.8),
+(2, 2, 3, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS', 8.5),
+(3, 3, 5, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS', 6.2),
+(4, 4, 7, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS', 9.1),
+(5, 5, 8, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS', 5.7),
+(6, 6, 10, CURRENT_DATE(), 'PENDING', 'IN_PROGRESS', 8.0),
+(7, 7, 12, CURRENT_DATE(), 'ACTIVE', 'IN_PROGRESS', 7.2);

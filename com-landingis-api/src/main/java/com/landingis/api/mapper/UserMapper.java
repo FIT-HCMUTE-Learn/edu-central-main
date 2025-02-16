@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserMapper {
 
     @Mappings({
-            @Mapping(source = "handle", target = "username"),
+            @Mapping(source = "userHandle", target = "username"),
             @Mapping(source = "userPassword", target = "password"),
             @Mapping(source = "userFullName", target = "fullName"),
             @Mapping(source = "userGender", target = "gender")
@@ -20,7 +20,7 @@ public interface UserMapper {
     User toEntity(UserCreateForm form);
 
     @Mappings({
-            @Mapping(source = "handle", target = "username"),
+            @Mapping(source = "userHandle", target = "username"),
             @Mapping(source = "userPassword", target = "password"),
             @Mapping(source = "userFullName", target = "fullName"),
             @Mapping(source = "userGender", target = "gender")
@@ -29,7 +29,7 @@ public interface UserMapper {
 
     @Mappings({
             @Mapping(source = "id", target = "userId"),
-            @Mapping(source = "username", target = "handle"),
+            @Mapping(source = "username", target = "userHandle"),
             @Mapping(source = "fullName", target = "userFullName"),
             @Mapping(source = "gender", target = "userGender")
     })

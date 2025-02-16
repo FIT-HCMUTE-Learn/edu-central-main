@@ -1,5 +1,6 @@
 package com.landingis.api.controller;
 
+import com.landingis.api.dto.course.CourseAcademicReportDto;
 import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/course")
@@ -95,6 +97,14 @@ public class CourseController {
         courseService.deleteWithDataSource(id);
         ApiMessageDto<Void> response = ApiMessageUtils
                 .success(null, "Course deleted successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/academic-report")
+    public ResponseEntity<ApiMessageDto<CourseAcademicReportDto>> getAcademicReport() {
+        ApiMessageDto<CourseAcademicReportDto> response = ApiMessageUtils
+                .success(courseService.getAcademicReport(), "Successfully retrieved academic report");
 
         return ResponseEntity.ok(response);
     }

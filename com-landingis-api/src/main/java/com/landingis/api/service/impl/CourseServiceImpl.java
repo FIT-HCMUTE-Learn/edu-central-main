@@ -1,5 +1,6 @@
 package com.landingis.api.service.impl;
 
+import com.landingis.api.dto.course.CourseAcademicReportDto;
 import com.landingis.api.dto.course.CourseDto;
 import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
@@ -19,6 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -101,5 +103,10 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Course with id " + id + " not found")
         );
+    }
+
+    @Override
+    public CourseAcademicReportDto getAcademicReport() {
+        return courseRepository.getAcademicReport();
     }
 }

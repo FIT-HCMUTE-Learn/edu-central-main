@@ -1,17 +1,15 @@
-package com.landingis.api.dto.student;
+package com.landingis.api.dto.admin;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.landingis.api.dto.user.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StudentDto {
+public class AdminDto {
     private UserDto user;
-    private String studentCode;
-    private Date studentBirthday;
+    private Integer adminLevel;
+    private Boolean isSuperAdmin;
 }
