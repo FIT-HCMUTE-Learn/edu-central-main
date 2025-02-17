@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -44,8 +45,8 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public StudentDto createStudent(StudentCreateForm form) {
-        if (userRepository.existsByUsername(form.getUserHandle())) {
-            throw new BusinessException("Username already exists");
+        if (studentRepository.findByUsername(form.getUserHandle()).isPresent()) {
+            throw new BusinessException("User with username " + form.getUserHandle() + " already exists");
         }
 
         User user = new User();
@@ -74,7 +75,14 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
+        if (!form.getUserHandle().equals(student.getUser().getUsername())
+        && studentRepository.findByUsername(form.getUserHandle()).isPresent()) {
+            throw new BusinessException("User with username " + form.getUserHandle() + " already exists");
+        }
+
         User user = student.getUser();
+        user.setUsername(form.getUserHandle());
+        user.setPassword(passwordEncoder.encode(form.getUserPassword()));
         user.setFullName(form.getUserFullName());
         user.setGender(form.getUserGender());
         userRepository.save(user);

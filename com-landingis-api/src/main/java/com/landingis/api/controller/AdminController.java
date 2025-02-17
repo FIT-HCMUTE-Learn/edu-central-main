@@ -8,6 +8,7 @@ import com.landingis.api.form.admin.AdminUpdateForm;
 import com.landingis.api.model.criteria.AdminCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.service.AdminService;
+import com.landingis.api.service.AuthenticationService;
 import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,9 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @Autowired
     private AdminService adminService;
@@ -46,7 +50,7 @@ public class AdminController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('C_POST')")
     public ResponseEntity<ApiMessageDto<AdminDto>> createAdmin(@Valid @RequestBody AdminCreateForm request) {
-        if (!adminService.checkIsSuperAdmin()) {
+        if (!authenticationService.checkIsSuperAdmin()) {
             throw new BusinessException("Only super admins can create a new admin.");
         }
 

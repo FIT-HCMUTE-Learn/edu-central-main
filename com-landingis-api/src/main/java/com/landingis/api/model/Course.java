@@ -2,6 +2,7 @@ package com.landingis.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.landingis.api.enumeration.CourseState;
+import com.landingis.api.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,8 +16,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Course {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+public class Course extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

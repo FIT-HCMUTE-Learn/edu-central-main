@@ -87,4 +87,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return new AuthenticationDto(token, userDetails.getUsername(), pcodes);
     }
+
+    @Override
+    public boolean checkIsSuperAdmin() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof CustomUserDetails) {
+            return ((CustomUserDetails) principal).getIsSuperAdmin();
+        }
+
+        return false;
+    }
 }

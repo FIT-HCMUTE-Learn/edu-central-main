@@ -1,5 +1,6 @@
 package com.landingis.api.model;
 
+import com.landingis.api.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,10 +12,10 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
+public class Admin extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private Integer level;

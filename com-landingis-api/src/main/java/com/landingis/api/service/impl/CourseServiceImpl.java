@@ -10,6 +10,7 @@ import com.landingis.api.model.Course;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.CourseMapper;
+import com.landingis.api.projection.CourseAcademicReportProjection;
 import com.landingis.api.repository.CourseRepository;
 import com.landingis.api.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,5 +109,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseAcademicReportDto getAcademicReport() {
         return courseRepository.getAcademicReport();
+    }
+
+    @Override
+    public CourseAcademicReportProjection getAcademicReportProjection() {
+        return courseRepository.getAcademicReportProjection();
     }
 }

@@ -12,6 +12,7 @@ import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ public class CourseRegistrationController {
     private UserCourseService userCourseService;
 
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<PaginationDto<UserCourseDto>>> getUserCourses(
             UserCourseCriteria userCourseCriteria,
             Pageable pageable
@@ -37,6 +39,7 @@ public class CourseRegistrationController {
     }
 
     @PostMapping("/register")
+    @PreAuthorize("hasAuthority('C_POST')")
     public ResponseEntity<ApiMessageDto<UserCourseDto>> registerCourse(@Valid @RequestBody UserCourseRegisterForm form) {
         ApiMessageDto<UserCourseDto> response = ApiMessageUtils
                 .success(userCourseService.registerCourse(form), "Course registered successfully");
@@ -45,6 +48,7 @@ public class CourseRegistrationController {
     }
 
     @DeleteMapping("/unregister")
+    @PreAuthorize("hasAuthority('C_DELETE')")
     public ResponseEntity<ApiMessageDto<Void>> unregisterCourse(@Valid @RequestBody UserCourseUnregisterForm form) {
         userCourseService.unregisterCourse(form);
 
@@ -55,6 +59,7 @@ public class CourseRegistrationController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('C_PUT')")
     public ResponseEntity<ApiMessageDto<UserCourseDto>> updateRegisterStatus(@Valid @RequestBody UserCourseUpdateForm form) {
         ApiMessageDto<UserCourseDto> response = ApiMessageUtils
                 .success(userCourseService.update(form), "Register status updated successfully");

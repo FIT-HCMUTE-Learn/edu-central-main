@@ -6,6 +6,7 @@ import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
+import com.landingis.api.projection.UserProjection;
 import com.landingis.api.service.UserService;
 import com.landingis.api.util.ApiMessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,24 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/list-all/projection")
+    @PreAuthorize("hasAuthority('C_GET')")
+    public ResponseEntity<ApiMessageDto<List<UserProjection>>> getUsersProjection() {
+        ApiMessageDto<List<UserProjection>> response = ApiMessageUtils
+                .success(userService.getAllProjectedBy(), "Successfully retrieved users with projection");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("get/{id}/projection")
+    @PreAuthorize("hasAuthority('C_GET')")
+    public ResponseEntity<ApiMessageDto<UserProjection>> getUserProjection(@PathVariable Long id) {
+        ApiMessageDto<UserProjection> response = ApiMessageUtils
+                .success(userService.getUserProjectedById(id), "Successfully retrieved user with projection");
+
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('C_GET')")

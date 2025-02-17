@@ -1,5 +1,6 @@
 package com.landingis.api.model;
 
+import com.landingis.api.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student {
+public class Student extends Auditable {
 
     @Id
     private Long id;
