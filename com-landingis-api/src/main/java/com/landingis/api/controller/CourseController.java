@@ -128,12 +128,4 @@ public class CourseController {
 
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/academic-report")
-    public ResponseEntity<ApiMessageDto<CourseAcademicReportDto>> getAcademicReport() {
-        ApiMessageDto<CourseAcademicReportDto> response = ApiMessageUtils
-                .success(courseService.getAcademicReport(), "Successfully retrieved academic report");
-
-        return ResponseEntity.ok(response);
-    }
 }

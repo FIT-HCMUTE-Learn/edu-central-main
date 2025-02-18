@@ -27,12 +27,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtFilter jwtFilter;
 
+    private static final String[] WHITELIST_SWAGGER = {
+            "/swagger-ui/**",
+            "/v2/api-docs/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/configuration/ui",
+            "/configuration/security"
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/auth/login").permitAll()
+                .antMatchers(WHITELIST_SWAGGER).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
