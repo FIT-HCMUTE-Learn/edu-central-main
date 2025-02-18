@@ -1,5 +1,6 @@
 package com.landingis.api.model;
 
+import com.landingis.api.model.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,10 +10,9 @@ import java.util.List;
 @Table(name = "user_groups")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Group {
+public class Group extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -15,8 +15,7 @@ public interface AdminMapper {
             @Mapping(source = "userPassword", target = "user.password"),
             @Mapping(source = "userFullName", target = "user.fullName"),
             @Mapping(source = "userGender", target = "user.gender"),
-            @Mapping(source = "adminLevel", target = "level"),
-            @Mapping(source = "isSuperAdmin", target = "isSuperAdmin")
+            @Mapping(source = "adminLevel", target = "level")
     })
     Admin toEntity(AdminCreateForm form);
 
@@ -24,8 +23,7 @@ public interface AdminMapper {
             @Mapping(source = "userHandle", target = "user.username"),
             @Mapping(source = "userFullName", target = "user.fullName"),
             @Mapping(source = "userGender", target = "user.gender"),
-            @Mapping(source = "adminLevel", target = "level"),
-            @Mapping(source = "isSuperAdmin", target = "isSuperAdmin")
+            @Mapping(source = "adminLevel", target = "level")
     })
     void updateEntity(@MappingTarget Admin admin, AdminCreateForm form);
 

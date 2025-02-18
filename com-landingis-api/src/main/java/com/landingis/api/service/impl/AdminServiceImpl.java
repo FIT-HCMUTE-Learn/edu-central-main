@@ -21,8 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.landingis.api.security.CustomUserDetails;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.transaction.Transactional;
 
@@ -47,8 +45,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public AdminDto createAdmin(AdminCreateForm form) {
-        if (userRepository.existsByUsername(form.getUserHandle())) {
-            throw new BusinessException("Username already exists");
+        if (adminRepository.findByUsername(form.getUserHandle()).isPresent()) {
+            throw new BusinessException("User with username " + form.getUserHandle() + " already exists");
         }
 
         User user = new User();
@@ -64,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
 
         Admin admin = new Admin();
         admin.setLevel(form.getAdminLevel());
-        admin.setIsSuperAdmin(form.getIsSuperAdmin());
+        admin.setIsSuperAdmin(false);
         admin.setUser(savedUser);
 
         Admin savedAdmin = adminRepository.save(admin);
@@ -77,13 +75,20 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = adminRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Admin not found"));
 
+        if (!form.getUserHandle().equals(admin.getUser().getUsername())
+                && adminRepository.findByUsername(form.getUserHandle()).isPresent()) {
+            throw new BusinessException("User with username " + form.getUserHandle() + " already exists");
+        }
+
         User user = admin.getUser();
+        user.setUsername(form.getUserHandle());
         user.setFullName(form.getUserFullName());
+        user.setPassword(passwordEncoder.encode(form.getUserPassword()));
         user.setGender(form.getUserGender());
         userRepository.save(user);
 
         admin.setLevel(form.getAdminLevel());
-        admin.setIsSuperAdmin(form.getIsSuperAdmin());
+
         Admin updatedAdmin = adminRepository.save(admin);
 
         return adminMapper.toDto(updatedAdmin);
@@ -114,16 +119,6 @@ public class AdminServiceImpl implements AdminService {
                 adminsPage.getTotalElements(),
                 adminsPage.getTotalPages()
         );
-    }
-
-    @Override
-    public boolean checkIsSuperAdmin() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof CustomUserDetails) {
-            return ((CustomUserDetails) principal).getIsSuperAdmin();
-        }
-
-        return false;
     }
 }
 

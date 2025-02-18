@@ -2,6 +2,7 @@ package com.landingis.api.model;
 
 import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
+import com.landingis.api.model.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,10 +12,9 @@ import java.time.LocalDate;
 @Table(name = "user_course")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCourse {
+public class UserCourse extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

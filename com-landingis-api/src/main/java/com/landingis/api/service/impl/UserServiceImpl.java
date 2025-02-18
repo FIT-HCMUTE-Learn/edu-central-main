@@ -10,6 +10,7 @@ import com.landingis.api.model.User;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.UserMapper;
+import com.landingis.api.projection.UserProjection;
 import com.landingis.api.repository.GroupRepository;
 import com.landingis.api.repository.UserRepository;
 import com.landingis.api.service.UserService;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -115,5 +117,21 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User with id " + id + " not found")
         );
+    }
+
+    @Override
+    public List<UserProjection> getAllProjectedBy() {
+        return userRepository.findAllProjectedBy();
+    }
+
+    @Override
+    public UserProjection getUserProjectedById(Long id) {
+        Optional<UserProjection> userProjection = userRepository.findUserById(id);
+
+        if (userProjection.isPresent()) {
+            return userProjection.get();
+        };
+
+        return null;
     }
 }

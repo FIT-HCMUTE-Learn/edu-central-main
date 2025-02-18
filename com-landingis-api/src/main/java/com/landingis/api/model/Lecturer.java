@@ -6,21 +6,21 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "admins")
+@Table(name = "lecturers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin extends Auditable {
+public class Lecturer extends Auditable {
 
     @Id
     private Long id;
 
     @Column(nullable = false)
-    private Integer level;
+    private String workCode;
 
     @Column(nullable = false)
-    private Boolean isSuperAdmin;
+    private String career;
 
     @OneToOne
     @MapsId

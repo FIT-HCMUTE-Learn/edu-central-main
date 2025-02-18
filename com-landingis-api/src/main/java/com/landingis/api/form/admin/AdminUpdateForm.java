@@ -43,8 +43,4 @@ public class AdminUpdateForm {
     @ApiModelProperty(value = "Level (1: High, 2: Medium, 3: Low)", example = "1", required = true)
     @NotNull(message = "Admin level cannot be null")
     private Integer adminLevel;
-
-    @ApiModelProperty(value = "Are you super admin?", example = "true", required = true)
-    @NotNull(message = "Value cannot be null")
-    private Boolean isSuperAdmin;
 }

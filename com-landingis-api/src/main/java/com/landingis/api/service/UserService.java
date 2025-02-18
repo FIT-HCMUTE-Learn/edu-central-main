@@ -6,9 +6,11 @@ import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
 import com.landingis.api.model.User;
+import com.landingis.api.projection.UserProjection;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     List<UserDto> getAll();
@@ -18,5 +20,8 @@ public interface UserService {
     UserDto update(UserUpdateForm request);
     void delete(Long id);
     void deleteWithDataSource(Long id);
+    List<UserProjection> getAllProjectedBy();
+    UserProjection getUserProjectedById(Long id);
+
     User findUserById(Long id);
 }
