@@ -88,6 +88,7 @@ public class AdminServiceImpl implements AdminService {
         userRepository.save(user);
 
         admin.setLevel(form.getAdminLevel());
+
         Admin updatedAdmin = adminRepository.save(admin);
 
         return adminMapper.toDto(updatedAdmin);

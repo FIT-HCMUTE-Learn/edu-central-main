@@ -110,9 +110,4 @@ public class CourseServiceImpl implements CourseService {
     public CourseAcademicReportDto getAcademicReport() {
         return courseRepository.getAcademicReport();
     }
-
-    @Override
-    public CourseAcademicReportProjection getAcademicReportProjection() {
-        return courseRepository.getAcademicReportProjection();
-    }
 }
