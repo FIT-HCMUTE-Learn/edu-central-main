@@ -4,7 +4,7 @@ SET @tables = NULL;
 
 SELECT GROUP_CONCAT('`', table_name, '`') INTO @tables
 FROM information_schema.tables
-WHERE table_schema = 'student-course';
+WHERE table_schema = 'edu_central_main';
 
 SET @query = IFNULL(CONCAT('DROP TABLE ', @tables), 'SELECT "No tables to drop";');
 

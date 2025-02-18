@@ -2,7 +2,7 @@ package com.landingis.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.landingis.api.enumeration.CourseState;
-import com.landingis.api.audit.Auditable;
+import com.landingis.api.model.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "`courses`")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
