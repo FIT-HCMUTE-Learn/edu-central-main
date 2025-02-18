@@ -21,7 +21,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -109,5 +108,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseAcademicReportDto getAcademicReport() {
         return courseRepository.getAcademicReport();
+    }
+
+    @Override
+    public CourseAcademicReportProjection getAcademicReportProjection() {
+        return courseRepository.getAcademicReportProjection();
     }
 }

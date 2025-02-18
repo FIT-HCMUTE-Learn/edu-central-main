@@ -1,1 +1,1 @@
-# student-register-course-jpa
+# edu-central-main
