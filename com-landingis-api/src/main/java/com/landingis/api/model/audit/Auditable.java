@@ -1,4 +1,4 @@
-package com.landingis.api.audit;
+package com.landingis.api.model.audit;
 
 import lombok.Getter;
 import lombok.Setter;

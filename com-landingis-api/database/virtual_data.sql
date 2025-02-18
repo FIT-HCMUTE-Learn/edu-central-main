@@ -1,3 +1,5 @@
+USE edu_central_main;
+
 -- Insert groups
 INSERT INTO user_groups (id, name, kind) VALUES
 (1, 'GROUP_USER', 1),
@@ -29,8 +31,8 @@ INSERT INTO users (id, username, password, full_name, avatar, gender, group_id) 
 (6, 'student6',  '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'David Black', 'avatar6.png', 2, 1),
 (7, 'student7',  '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Emma Watson', 'avatar7.png', 1, 1),
 (8, 'student8',  '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Frank Green', 'avatar8.png', 2, 1),
-(9, 'student9',  '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Grace Hall', 'avatar9.png', 1, 1),
-(10, 'student10', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Hannah Lewis', 'avatar10.png', 2, 1),
+(9, 'lecture1',  '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Grace Hall', 'avatar9.png', 1, 1),
+(10, 'lecture2', '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Hannah Lewis', 'avatar10.png', 2, 1),
 (11, 'admin1',  '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Admin One', 'admin_avatar1.png', 1, 2),
 (12, 'admin2',  '$2a$10$Q7YVWsUIFK3qzGgL2.TtSuQQ/POJ4pIKNCm6J5GrbQLU1rdQGsVVW', 'Admin Two', 'admin_avatar2.png', 2, 2);
 
@@ -43,9 +45,12 @@ INSERT INTO students (id, student_code, birth_date) VALUES
 (5, 'S1005', '2003-01-30'),
 (6, 'S1006', '2002-06-14'),
 (7, 'S1007', '2000-02-22'),
-(8, 'S1008', '2001-11-03'),
-(9, 'S1009', '1998-05-09'),
-(10, 'S1010', '2003-04-01');
+(8, 'S1008', '2001-11-03');
+
+-- Insert lecturers
+INSERT INTO lecturers (id, work_code, career) VALUES
+(9, 'L1001', 'Information System'),
+(10, 'L1002', 'Artificial Intelligence');
 
 -- Insert admins
 INSERT INTO admins (id, is_super_admin, level) VALUES

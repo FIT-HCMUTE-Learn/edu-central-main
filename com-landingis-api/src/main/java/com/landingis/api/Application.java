@@ -1,6 +1,6 @@
 package com.landingis.api;
 
-import com.landingis.api.audit.AuditorAwareImpl;
+import com.landingis.api.model.audit.AuditorAwareImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
