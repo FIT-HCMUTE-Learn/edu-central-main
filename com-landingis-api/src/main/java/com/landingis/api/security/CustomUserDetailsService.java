@@ -1,7 +1,7 @@
 package com.landingis.api.security;
 
-import com.landingis.api.model.Admin;
-import com.landingis.api.model.User;
+import com.landingis.api.model.entity.Admin;
+import com.landingis.api.model.entity.User;
 import com.landingis.api.repository.AdminRepository;
 import com.landingis.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,12 +1,12 @@
 package com.landingis.api.service.impl;
 
 import com.landingis.api.dto.user.UserDto;
-import com.landingis.api.model.Group;
+import com.landingis.api.model.entity.Group;
 import com.landingis.api.model.criteria.UserCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
-import com.landingis.api.model.User;
+import com.landingis.api.model.entity.User;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.UserMapper;

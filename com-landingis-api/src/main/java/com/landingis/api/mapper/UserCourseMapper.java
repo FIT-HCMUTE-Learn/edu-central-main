@@ -1,9 +1,9 @@
 package com.landingis.api.mapper;
 
 import com.landingis.api.dto.intermediary.UserCourseDto;
-import com.landingis.api.model.Course;
-import com.landingis.api.model.User;
-import com.landingis.api.model.UserCourse;
+import com.landingis.api.model.entity.Course;
+import com.landingis.api.model.entity.User;
+import com.landingis.api.model.entity.UserCourse;
 import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.form.usercourse.UserCourseRegisterForm;

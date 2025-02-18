@@ -2,7 +2,7 @@ package com.landingis.api.mapper;
 
 import com.landingis.api.dto.admin.AdminDto;
 import com.landingis.api.form.admin.AdminCreateForm;
-import com.landingis.api.model.Admin;
+import com.landingis.api.model.entity.Admin;
 import org.mapstruct.*;
 
 import java.util.List;

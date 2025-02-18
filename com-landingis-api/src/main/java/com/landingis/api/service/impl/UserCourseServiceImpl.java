@@ -3,7 +3,7 @@ package com.landingis.api.service.impl;
 import com.landingis.api.dto.intermediary.UserCourseDto;
 import com.landingis.api.model.criteria.UserCourseCriteria;
 import com.landingis.api.dto.PaginationDto;
-import com.landingis.api.model.UserCourse;
+import com.landingis.api.model.entity.UserCourse;
 import com.landingis.api.enumeration.RegisterStatus;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;

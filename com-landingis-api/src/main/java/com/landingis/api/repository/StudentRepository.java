@@ -1,6 +1,6 @@
 package com.landingis.api.repository;
 
-import com.landingis.api.model.Student;
+import com.landingis.api.model.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,6 @@
 package com.landingis.api.repository;
 
-import com.landingis.api.model.User;
+import com.landingis.api.model.entity.User;
 import com.landingis.api.projection.UserProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

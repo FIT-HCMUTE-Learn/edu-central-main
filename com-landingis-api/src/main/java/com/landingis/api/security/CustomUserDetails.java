@@ -1,7 +1,6 @@
 package com.landingis.api.security;
 
-import com.landingis.api.model.Group;
-import com.landingis.api.model.User;
+import com.landingis.api.model.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

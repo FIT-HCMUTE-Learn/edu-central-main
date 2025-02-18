@@ -6,9 +6,9 @@ import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.form.student.StudentCreateForm;
 import com.landingis.api.mapper.StudentMapper;
-import com.landingis.api.model.Group;
-import com.landingis.api.model.Student;
-import com.landingis.api.model.User;
+import com.landingis.api.model.entity.Group;
+import com.landingis.api.model.entity.Student;
+import com.landingis.api.model.entity.User;
 import com.landingis.api.model.criteria.StudentCriteria;
 import com.landingis.api.repository.GroupRepository;
 import com.landingis.api.repository.StudentRepository;
@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Objects;
 
 @Service
 public class StudentServiceImpl implements StudentService {

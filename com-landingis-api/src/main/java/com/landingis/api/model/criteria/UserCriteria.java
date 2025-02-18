@@ -1,6 +1,6 @@
 package com.landingis.api.model.criteria;
 
-import com.landingis.api.model.User;
+import com.landingis.api.model.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;

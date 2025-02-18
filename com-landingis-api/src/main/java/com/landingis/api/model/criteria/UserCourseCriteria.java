@@ -2,7 +2,7 @@ package com.landingis.api.model.criteria;
 
 import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;
-import com.landingis.api.model.UserCourse;
+import com.landingis.api.model.entity.UserCourse;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;

@@ -2,7 +2,7 @@ package com.landingis.api.mapper;
 
 import com.landingis.api.dto.student.StudentDto;
 import com.landingis.api.form.student.StudentCreateForm;
-import com.landingis.api.model.Student;
+import com.landingis.api.model.entity.Student;
 import org.mapstruct.*;
 
 import java.util.List;

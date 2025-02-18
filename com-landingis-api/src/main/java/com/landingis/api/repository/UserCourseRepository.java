@@ -1,6 +1,6 @@
 package com.landingis.api.repository;
 
-import com.landingis.api.model.UserCourse;
+import com.landingis.api.model.entity.UserCourse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

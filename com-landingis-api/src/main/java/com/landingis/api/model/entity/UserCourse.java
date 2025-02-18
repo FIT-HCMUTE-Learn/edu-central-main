@@ -1,4 +1,4 @@
-package com.landingis.api.model;
+package com.landingis.api.model.entity;
 
 import com.landingis.api.enumeration.LearningState;
 import com.landingis.api.enumeration.RegisterStatus;

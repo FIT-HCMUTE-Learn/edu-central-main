@@ -1,4 +1,4 @@
-package com.landingis.api.model;
+package com.landingis.api.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.landingis.api.model.audit.Auditable;

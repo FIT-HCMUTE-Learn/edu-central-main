@@ -6,12 +6,11 @@ import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
-import com.landingis.api.model.Course;
+import com.landingis.api.model.entity.Course;
 import com.landingis.api.projection.CourseAcademicReportProjection;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CourseService {
     List<CourseDto> getAll();

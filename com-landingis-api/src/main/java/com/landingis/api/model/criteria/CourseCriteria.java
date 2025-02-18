@@ -1,6 +1,6 @@
 package com.landingis.api.model.criteria;
 
-import com.landingis.api.model.Course;
+import com.landingis.api.model.entity.Course;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;

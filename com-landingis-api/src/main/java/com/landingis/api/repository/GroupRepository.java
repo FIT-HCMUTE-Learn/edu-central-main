@@ -1,6 +1,6 @@
 package com.landingis.api.repository;
 
-import com.landingis.api.model.Group;
+import com.landingis.api.model.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

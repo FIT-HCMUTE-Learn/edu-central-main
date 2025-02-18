@@ -1,4 +1,4 @@
-package com.landingis.api.model;
+package com.landingis.api.model.entity;
 
 import com.landingis.api.model.audit.Auditable;
 import lombok.*;
@@ -6,21 +6,21 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "lecturers")
+@Table(name = "admins")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Lecturer extends Auditable {
+public class Admin extends Auditable {
 
     @Id
     private Long id;
 
     @Column(nullable = false)
-    private String workCode;
+    private Integer level;
 
     @Column(nullable = false)
-    private String career;
+    private Boolean isSuperAdmin;
 
     @OneToOne
     @MapsId

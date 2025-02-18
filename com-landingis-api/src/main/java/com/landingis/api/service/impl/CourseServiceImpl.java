@@ -6,7 +6,7 @@ import com.landingis.api.model.criteria.CourseCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
-import com.landingis.api.model.Course;
+import com.landingis.api.model.entity.Course;
 import com.landingis.api.exception.BusinessException;
 import com.landingis.api.exception.ResourceNotFoundException;
 import com.landingis.api.mapper.CourseMapper;
@@ -21,7 +21,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -109,5 +108,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseAcademicReportDto getAcademicReport() {
         return courseRepository.getAcademicReport();
+    }
+
+    @Override
+    public CourseAcademicReportProjection getAcademicReportProjection() {
+        return courseRepository.getAcademicReportProjection();
     }
 }

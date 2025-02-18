@@ -3,7 +3,7 @@ package com.landingis.api.mapper;
 import com.landingis.api.dto.course.CourseDto;
 import com.landingis.api.form.course.CourseCreateForm;
 import com.landingis.api.form.course.CourseUpdateForm;
-import com.landingis.api.model.Course;
+import com.landingis.api.model.entity.Course;
 import org.mapstruct.*;
 
 import java.util.List;

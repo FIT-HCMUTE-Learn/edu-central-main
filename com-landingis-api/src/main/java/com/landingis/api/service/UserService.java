@@ -5,12 +5,11 @@ import com.landingis.api.model.criteria.UserCriteria;
 import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.form.user.UserCreateForm;
 import com.landingis.api.form.user.UserUpdateForm;
-import com.landingis.api.model.User;
+import com.landingis.api.model.entity.User;
 import com.landingis.api.projection.UserProjection;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     List<UserDto> getAll();
