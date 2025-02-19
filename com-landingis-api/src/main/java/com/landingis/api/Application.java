@@ -4,6 +4,7 @@ import com.landingis.api.model.audit.AuditorAwareImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.AuditorAware;
@@ -16,6 +17,7 @@ import java.util.TimeZone;
 @SpringBootApplication
 @EnableScheduling
 @EnableJpaAuditing
+@EnableFeignClients
 @EnableAspectJAutoProxy
 @Slf4j
 public class Application {
