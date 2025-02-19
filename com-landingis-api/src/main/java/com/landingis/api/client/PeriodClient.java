@@ -1,17 +1,26 @@
 package com.landingis.api.client;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.http.ResponseEntity;
+import com.landingis.api.config.FeignClientConfig;
+import com.landingis.api.constant.FeignConstant;
 import com.landingis.api.dto.ApiMessageDto;
+import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.period.PeriodDto;
-import org.springframework.web.bind.annotation.RequestHeader;
+import com.landingis.api.model.criteria.PeriodCriteria;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
-@FeignClient(name = "periodClient", url = "http://localhost:8383/api/period")
+@FeignClient(
+        name = "periodClient",
+        url = FeignConstant.EXTENSION_SERVICE_URL + "/api/period",
+        configuration = FeignClientConfig.class
+)
 public interface PeriodClient {
 
     @GetMapping("/list")
-    ResponseEntity<ApiMessageDto<List<PeriodDto>>> getAllPeriods(@RequestHeader("Authorization") String authHeader);
+    ApiMessageDto<PaginationDto<PeriodDto>> getAllPeriods(
+            @SpringQueryMap PeriodCriteria periodCriteria,
+            Pageable pageable
+    );
 }
