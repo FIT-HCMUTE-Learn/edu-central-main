@@ -10,9 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserCourseRepository extends JpaRepository<UserCourse, Long>, JpaSpecificationExecutor<UserCourse> {
-    List<UserCourse> findByUserId(Long userId);
-
-    List<UserCourse> findByCourseId(Long courseId);
-
     Optional<UserCourse> findByUserIdAndCourseId(Long userId, Long courseId);
 }
