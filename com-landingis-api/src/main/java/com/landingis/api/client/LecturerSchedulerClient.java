@@ -3,12 +3,17 @@ package com.landingis.api.client;
 import com.landingis.api.config.FeignClientConfig;
 import com.landingis.api.constant.FeignConstant;
 import com.landingis.api.dto.ApiMessageDto;
+import com.landingis.api.dto.PaginationDto;
 import com.landingis.api.dto.lecturerscheduler.LecturerSchedulerDto;
 import com.landingis.api.form.lecturerscheduler.LecturerSchedulerCreateForm;
 import com.landingis.api.form.lecturerscheduler.LecturerSchedulerUpdateForm;
+import com.landingis.api.model.criteria.LecturerSchedulerCriteria;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.cloud.openfeign.SpringQueryMap;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @FeignClient(
         name = "lecturerSchedulerClient",
@@ -17,13 +22,22 @@ import org.springframework.web.bind.annotation.PutMapping;
 )
 public interface LecturerSchedulerClient {
 
-    @PostMapping("/create")
-    ApiMessageDto<LecturerSchedulerDto> createLecturerScheduler(
-            LecturerSchedulerCreateForm form
+    @GetMapping("/list")
+    ApiMessageDto<PaginationDto<LecturerSchedulerDto>> getAll(
+            @SpringQueryMap LecturerSchedulerCriteria lecturerSchedulerCriteria,
+            Pageable pageable
     );
 
-    @PutMapping("/update")
-    ApiMessageDto<LecturerSchedulerDto> updateLecturerScheduler(
-            LecturerSchedulerUpdateForm form
-    );
+    @GetMapping("/get/{id}")
+    ApiMessageDto<LecturerSchedulerDto> getById(@PathVariable("id") Long id);
+
+    @PostMapping("/create")
+    ApiMessageDto<LecturerSchedulerDto> createLecturerScheduler(@Valid @RequestBody LecturerSchedulerCreateForm form);
+
+    @PutMapping("/update/{id}")
+    ApiMessageDto<LecturerSchedulerDto> updateLecturerScheduler(@PathVariable("id") Long id,
+                                                                @Valid @RequestBody LecturerSchedulerUpdateForm form);
+
+    @DeleteMapping("/delete/{id}")
+    ApiMessageDto<Void> deleteLecturerScheduler(@PathVariable("id") Long id);
 }
