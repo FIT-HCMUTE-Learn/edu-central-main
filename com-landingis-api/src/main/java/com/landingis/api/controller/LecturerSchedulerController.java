@@ -14,6 +14,7 @@ import com.landingis.api.util.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,6 +34,7 @@ public class LecturerSchedulerController {
 
 
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<PaginationDto<LecturerSchedulerDto>>> getAll(
             LecturerSchedulerCriteria lecturerSchedulerCriteria,
             Pageable pageable
@@ -41,11 +43,13 @@ public class LecturerSchedulerController {
     }
 
     @GetMapping("/get/{id}")
+    @PreAuthorize("hasAuthority('C_GET')")
     public ResponseEntity<ApiMessageDto<LecturerSchedulerDto>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(lecturerSchedulerClient.getById(id));
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('C_POST')")
     public ResponseEntity<ApiMessageDto<LecturerSchedulerDto>> createLecturerScheduler(
             @Valid @RequestBody LecturerSchedulerCreateForm form
     ) {
@@ -59,6 +63,7 @@ public class LecturerSchedulerController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('C_PUT')")
     public ResponseEntity<ApiMessageDto<LecturerSchedulerDto>> updateLecturerScheduler(
             @Valid @RequestBody LecturerSchedulerUpdateForm form
     ) {
@@ -75,6 +80,7 @@ public class LecturerSchedulerController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('C_DELETE')")
     public ResponseEntity<ApiMessageDto<Void>> deleteLecturerScheduler(@PathVariable Long id) {
         return ResponseEntity.ok(lecturerSchedulerClient.deleteLecturerScheduler(id));
     }
