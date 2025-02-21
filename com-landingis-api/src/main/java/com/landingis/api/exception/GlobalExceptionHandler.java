@@ -2,7 +2,6 @@ package com.landingis.api.exception;
 
 import com.landingis.api.dto.ApiMessageDto;
 import com.landingis.api.enumeration.ErrorCode;
-import com.landingis.api.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -108,9 +107,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN); // 403 Forbidden
     }
 
-    @Autowired
-    private TokenService tokenService;
-
     // Other Errors
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiMessageDto<Void>> handleGlobalException(Exception ex) {
@@ -118,7 +114,7 @@ public class GlobalExceptionHandler {
                 false,
                 ErrorCode.UNKNOWN_ERROR.getCode(),
                 null,
-                ex.getMessage() + "; Token: " + tokenService.getToken()
+                ex.getMessage()
         );
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

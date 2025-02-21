@@ -10,6 +10,7 @@ import com.landingis.api.form.lecturerscheduler.LecturerSchedulerUpdateForm;
 import com.landingis.api.model.criteria.LecturerSchedulerCriteria;
 import com.landingis.api.repository.CourseRepository;
 import com.landingis.api.repository.LecturerRepository;
+import com.landingis.api.util.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class LecturerSchedulerController {
             LecturerSchedulerCriteria lecturerSchedulerCriteria,
             Pageable pageable
     ) {
-        return ResponseEntity.ok(lecturerSchedulerClient.getAll(lecturerSchedulerCriteria, pageable));
+        return ResponseEntity.ok(lecturerSchedulerClient.getAll(lecturerSchedulerCriteria, PageableUtils.pageableToString(pageable)));
     }
 
     @GetMapping("/get/{id}")
@@ -57,9 +58,8 @@ public class LecturerSchedulerController {
         return ResponseEntity.ok(lecturerSchedulerClient.createLecturerScheduler(form));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     public ResponseEntity<ApiMessageDto<LecturerSchedulerDto>> updateLecturerScheduler(
-            @PathVariable Long id,
             @Valid @RequestBody LecturerSchedulerUpdateForm form
     ) {
         if (form.getLecturerId() != null) {
@@ -71,7 +71,7 @@ public class LecturerSchedulerController {
                     .orElseThrow(() -> new ResourceNotFoundException("Course with id " + form.getCourseId() + " not found"));
         }
 
-        return ResponseEntity.ok(lecturerSchedulerClient.updateLecturerScheduler(id, form));
+        return ResponseEntity.ok(lecturerSchedulerClient.updateLecturerScheduler(form));
     }
 
     @DeleteMapping("/delete/{id}")

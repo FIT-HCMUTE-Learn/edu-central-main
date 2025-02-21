@@ -6,11 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class LecturerSchedulerUpdateForm {
+
+    @ApiModelProperty(value = "Lecturer scheduler id", example = "1", required = true)
+    @NotNull(message = "Lecturer scheduler id cannot be null")
+    private Long lecturerSchedulerId;
 
     @ApiModelProperty(value = "Lecturer id", example = "1")
     private Long lecturerId;

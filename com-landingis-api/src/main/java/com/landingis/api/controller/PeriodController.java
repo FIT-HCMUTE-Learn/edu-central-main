@@ -6,6 +6,7 @@ import com.landingis.api.dto.period.PeriodDto;
 import com.landingis.api.form.period.PeriodCreateForm;
 import com.landingis.api.form.period.PeriodUpdateForm;
 import com.landingis.api.model.criteria.PeriodCriteria;
+import com.landingis.api.util.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class PeriodController {
             PeriodCriteria periodCriteria,
             Pageable pageable
     ) {
-        return ResponseEntity.ok(periodClient.getAllPeriods(periodCriteria, pageable));
+        return ResponseEntity.ok(periodClient.getAllPeriods(periodCriteria, PageableUtils.pageableToString(pageable)));
     }
 
     @GetMapping("/get/{id}")
@@ -39,9 +40,9 @@ public class PeriodController {
         return ResponseEntity.ok(periodClient.createPeriod(form));
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ApiMessageDto<PeriodDto>> updatePeriod(@PathVariable Long id, @Valid @RequestBody PeriodUpdateForm form) {
-        return ResponseEntity.ok(periodClient.updatePeriod(id, form));
+    @PutMapping("/update")
+    public ResponseEntity<ApiMessageDto<PeriodDto>> updatePeriod(@Valid @RequestBody PeriodUpdateForm form) {
+        return ResponseEntity.ok(periodClient.updatePeriod(form));
     }
 
     @DeleteMapping("/delete/{id}")

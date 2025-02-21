@@ -30,7 +30,7 @@ public class JwtUtils {
                 .claim("pcodes", pcodes)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(SignatureAlgorithm.HS256, secret.getBytes())
                 .compact();
     }
 
@@ -60,7 +60,7 @@ public class JwtUtils {
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         Claims claims = Jwts.parser()
-                .setSigningKey(secret)
+                .setSigningKey(secret.getBytes())
                 .parseClaimsJws(token)
                 .getBody();
         return claimsResolver.apply(claims);
