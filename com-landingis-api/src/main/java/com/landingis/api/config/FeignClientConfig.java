@@ -1,52 +1,38 @@
 package com.landingis.api.config;
 
-import com.landingis.api.service.TokenService;
 import feign.RequestInterceptor;
-import feign.RequestTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Base64;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Collection;
 
 @Configuration
 public class FeignClientConfig {
 
-    @Autowired
-    private TokenService tokenService;
-
-    @Bean
-    public RequestInterceptor bearerAuthRequestInterceptor() {
-        return requestTemplate -> {
-            if (requestTemplate.url().contains("/api/auth/token")) {
-                return;
-            }
-
-            String token = tokenService.getToken();
-            requestTemplate.header("Authorization", "Bearer " + token);
-        };
-    }
-
     @Bean
     public RequestInterceptor pageableInterceptor() {
-        return template -> {
-            if (template.method().equals("GET") && template.requestBody() == null) {
+        return requestTemplate -> {
+            // Get token from SecurityContext
+            String token = null;
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                token = (String) authentication.getCredentials();
+            }
+            requestTemplate.header("Authorization", "Bearer " + token);
 
-                Pageable pageable = (Pageable) template.request().requestTemplate().queries().get("pageable");
+            // Process for Pageable form Header
+            Collection<String> pageableHeaders = requestTemplate.headers().get("CUSTOM_PAGEABLE");
+            if (pageableHeaders != null && !pageableHeaders.isEmpty()) {
+                String pageableParam = pageableHeaders.iterator().next();
 
-                if (pageable != null) {
-                    template.query("page", String.valueOf(pageable.getPageNumber()));
-                    template.query("size", String.valueOf(pageable.getPageSize()));
+                Arrays.stream(pageableParam.split("&"))
+                        .map(param -> param.split("="))
+                        .forEach(pair -> requestTemplate.query(pair[0], pair[1]));
 
-                    if (pageable.getSort().isSorted()) {
-                        String sortParam = pageable.getSort().stream()
-                                .map(order -> order.getProperty() + "," + order.getDirection().name().toLowerCase())
-                                .collect(Collectors.joining("&sort="));
-                        template.query("sort", sortParam);
-                    }
-                }
+                requestTemplate.header("CUSTOM_PAGEABLE", (String) null);
             }
         };
     }

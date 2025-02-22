@@ -25,7 +25,7 @@ public interface LecturerSchedulerClient {
     @GetMapping("/list")
     ApiMessageDto<PaginationDto<LecturerSchedulerDto>> getAll(
             @SpringQueryMap LecturerSchedulerCriteria lecturerSchedulerCriteria,
-            Pageable pageable
+            @RequestHeader(value = "CUSTOM_PAGEABLE", required = false) String pageable
     );
 
     @GetMapping("/get/{id}")
@@ -34,9 +34,8 @@ public interface LecturerSchedulerClient {
     @PostMapping("/create")
     ApiMessageDto<LecturerSchedulerDto> createLecturerScheduler(@Valid @RequestBody LecturerSchedulerCreateForm form);
 
-    @PutMapping("/update/{id}")
-    ApiMessageDto<LecturerSchedulerDto> updateLecturerScheduler(@PathVariable("id") Long id,
-                                                                @Valid @RequestBody LecturerSchedulerUpdateForm form);
+    @PutMapping("/update")
+    ApiMessageDto<LecturerSchedulerDto> updateLecturerScheduler(@Valid @RequestBody LecturerSchedulerUpdateForm form);
 
     @DeleteMapping("/delete/{id}")
     ApiMessageDto<Void> deleteLecturerScheduler(@PathVariable("id") Long id);

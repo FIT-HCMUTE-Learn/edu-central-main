@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -15,6 +16,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PeriodUpdateForm {
+
+    @ApiModelProperty(value = "Period id", example = "1", required = true)
+    @NotNull(message = "Period id cannot be null")
+    private Long periodId;
 
     @ApiModelProperty(value = "Period name", example = "period01")
     private String periodName;

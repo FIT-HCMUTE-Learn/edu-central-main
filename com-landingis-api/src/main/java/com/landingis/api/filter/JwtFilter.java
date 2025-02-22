@@ -41,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 CustomUserDetails userDetails = new CustomUserDetails(userId, username, "", group, kind, isSuperAdmin, pcodes);
 
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (ExpiredJwtException e) {

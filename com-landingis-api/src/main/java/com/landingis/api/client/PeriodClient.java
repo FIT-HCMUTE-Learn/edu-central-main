@@ -10,7 +10,6 @@ import com.landingis.api.form.period.PeriodUpdateForm;
 import com.landingis.api.model.criteria.PeriodCriteria;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,7 +24,7 @@ public interface PeriodClient {
     @GetMapping("/list")
     ApiMessageDto<PaginationDto<PeriodDto>> getAllPeriods(
             @SpringQueryMap PeriodCriteria periodCriteria,
-            Pageable pageable
+            @RequestHeader(value = "CUSTOM_PAGEABLE", required = false) String pageable
     );
 
     @GetMapping("/get/{id}")
@@ -34,8 +33,8 @@ public interface PeriodClient {
     @PostMapping("/create")
     ApiMessageDto<PeriodDto> createPeriod(@Valid @RequestBody PeriodCreateForm form);
 
-    @PutMapping("/update/{id}")
-    ApiMessageDto<PeriodDto> updatePeriod(@PathVariable("id") Long id, @Valid @RequestBody PeriodUpdateForm form);
+    @PutMapping("/update")
+    ApiMessageDto<PeriodDto> updatePeriod(@Valid @RequestBody PeriodUpdateForm form);
 
     @DeleteMapping("/delete/{id}")
     ApiMessageDto<Void> deletePeriod(@PathVariable("id") Long id);
